@@ -1,0 +1,214 @@
+
+set(SRC_HL_DLL
+	monsters/aflock.cpp
+	monsters/agrunt.cpp
+	airtank.cpp
+	animating.cpp
+	animation.cpp
+	monsters/apache.cpp
+	monsters/barnacle.cpp
+	monsters/barney.cpp
+	monsters/bigmomma.cpp
+	monsters/bloater.cpp
+	bmodels.cpp
+	monsters/bullsquid.cpp
+	buttons.cpp
+	cbase.cpp
+	client.cpp
+	combat.cpp
+	monsters/controller.cpp
+	weapons/crossbow.cpp
+	weapons/crowbar.cpp
+	defaultai.cpp
+	doors.cpp
+	effects.cpp
+	weapons/egon.cpp
+	explode.cpp
+	monsters/flyingmonster.cpp
+	func_break.cpp
+	func_tank.cpp
+	game.cpp
+	gamerules.cpp
+	monsters/gargantua.cpp
+	weapons/gauss.cpp
+	monsters/genericmonster.cpp
+	weapons/ggrenade.cpp
+	globals.cpp
+	weapons/glock.cpp
+	monsters/gman.cpp
+	weapons/handgrenade.cpp
+	monsters/hassassin.cpp
+	monsters/headcrab.cpp
+	healthkit.cpp
+	monsters/hgrunt.cpp
+	weapons/hornet.cpp
+	weapons/hornetgun.cpp
+	monsters/houndeye.cpp
+	h_ai.cpp
+	h_battery.cpp
+	monsters/h_cine.cpp
+	h_cycler.cpp
+	h_export.cpp
+	monsters/ichthyosaur.cpp
+	monsters/islave.cpp
+	items.cpp
+	monsters/leech.cpp
+	lights.cpp
+	maprules.cpp
+	monsters/monstermaker.cpp
+	monsters/monsters.cpp
+	monsters/monsterstate.cpp
+	mortar.cpp
+	weapons/mp5.cpp
+	multiplay_gamerules.cpp
+	monsters/nihilanth.cpp
+	nodes.cpp
+	observer.cpp
+	monsters/osprey.cpp
+	pathcorner.cpp
+	plane.cpp
+	plats.cpp
+	player.cpp
+	weapons/python.cpp
+	monsters/rat.cpp
+	monsters/roach.cpp
+	weapons/rpg.cpp
+	weapons/satchel.cpp
+	schedule.cpp
+	monsters/scientist.cpp
+	scripted.cpp
+	weapons/shotgun.cpp
+	singleplay_gamerules.cpp
+	skill.cpp
+	sound.cpp
+	soundent.cpp
+	spectator.cpp
+	monsters/squadmonster.cpp
+	weapons/squeakgrenade.cpp
+	subs.cpp
+	monsters/talkmonster.cpp
+	teamplay_gamerules.cpp
+	monsters/tempmonster.cpp
+	monsters/tentacle.cpp
+	triggers.cpp
+	weapons/tripmine.cpp
+	monsters/turret.cpp
+	util.cpp
+	weapons/weapons.cpp
+	world.cpp
+	xen.cpp
+	monsters/zombie.cpp
+	../game_shared/voice_gamemgr.cpp
+	../pm_shared/pm_debug.c
+	../pm_shared/pm_math.c
+	../pm_shared/pm_shared.c
+)
+
+set(HDR_HL_DLL
+	../common/const.h
+	../common/entity_state.h
+	../common/hltv.h
+	../common/in_buttons.h
+	../common/mathlib.h
+	../common/netadr.h
+	../common/pmtrace.h
+	../common/studio_event.h
+	../common/usercmd.h
+	../common/vector.h
+	../common/weaponinfo.h
+	../common/winsani_in.h
+	../common/winsani_out.h
+	activity.h
+	activitymap.h
+	animation.h
+	monsters/basemonster.h
+	cbase.h
+	cdll_dll.h
+	client.h
+	decals.h
+	defaultai.h
+	doors.h
+	effects.h
+	enginecallback.h
+	explode.h
+	extdll.h
+	monsters/flyingmonster.h
+	func_break.h
+	game.h
+	gamerules.h
+	weapons/hornet.h
+	items.h
+	maprules.h
+	monsters/monsterevent.h
+	monsters/monsters.h
+	nodes.h
+	plane.h
+	player.h
+	saverestore.h
+	schedule.h
+	scripted.h
+	scriptevent.h
+	skill.h
+	soundent.h
+	spectator.h
+	monsters/squadmonster.h
+	monsters/talkmonster.h
+	teamplay_gamerules.h
+	trains.h
+	util.h
+	weapons/weapons.h
+	../engine/crc.h
+	../engine/custom.h
+	../engine/customentity.h
+	../engine/cvardef.h
+	../engine/edict.h
+	../engine/eiface.h
+	../engine/event_flags.h
+	../engine/nowin.h
+	../engine/progdefs.h
+	../engine/Sequence.h
+	../engine/shake.h
+	../engine/studio.h
+	../game_shared/bitvec.h
+	../game_shared/voice_common.h
+	../game_shared/voice_gamemgr.h
+	../pm_shared/pm_debug.h
+	../pm_shared/pm_defs.h
+	../pm_shared/pm_info.h
+	../pm_shared/pm_materials.h
+	../pm_shared/pm_movevars.h
+	../pm_shared/pm_shared.h
+	../public/archtypes.h
+	../public/steam/steamtypes.h
+	../utils/common/mathlib.h
+)
+
+add_library(game SHARED ${SRC_HL_DLL} ${HDR_HL_DLL})
+
+include_directories(
+	../common
+	../dlls
+	../dlls/monsters
+	../dlls/weapons
+	../engine
+	../game_shared
+	../pm_shared
+	../public
+)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DCLIENT_WEAPONS")
+
+SET_TARGET_PROPERTIES(game PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/dlls/hl.def\" /NODEFAULTLIB:mfc110d")
+
+if(DEFINED MOD_FOLDER)
+    if(NOT DEFINED MOD_DLL_INSTALL_FOLDER)
+        set(MOD_DLL_INSTALL_FOLDER "${MOD_FOLDER}\\dlls")
+    endif(NOT DEFINED MOD_DLL_INSTALL_FOLDER)
+
+	message(STATUS "Will copy game to ${MOD_DLL_INSTALL_FOLDER}")
+    add_custom_target(Copy_HL_DLL_To_Mod_Directory ALL
+		COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}\\dlls\\game.dll" ${MOD_DLL_INSTALL_FOLDER}
+		COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}\\dlls\\game.pdb" ${MOD_DLL_INSTALL_FOLDER}
+    )
+	add_dependencies(Copy_HL_DLL_To_Mod_Directory game)
+endif(DEFINED MOD_FOLDER)
