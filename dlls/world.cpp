@@ -673,13 +673,19 @@ void CWorld :: Precache( void )
 //
 void CWorld :: KeyValue( KeyValueData *pkvd )
 {
-	if ( FStrEq(pkvd->szKeyName, "skyname") )
-	{
-		// Sent over net now.
-		CVAR_SET_STRING( "sv_skyname", pkvd->szValue );
-		pkvd->fHandled = TRUE;
-	}
-	else if ( FStrEq(pkvd->szKeyName, "sounds") )
+    if ( FStrEq(pkvd->szKeyName, "skyname") )
+    {
+        // Sent over net now.
+        CVAR_SET_STRING( "sv_skyname", pkvd->szValue );
+        pkvd->fHandled = TRUE;
+    }
+    else if ( FStrEq(pkvd->szKeyName, "reportid") )
+    {
+        // Sent over net now.
+        CVAR_SET_STRING( "sv_reportid", pkvd->szValue );
+        pkvd->fHandled = TRUE;
+    }
+    else if ( FStrEq(pkvd->szKeyName, "sounds") )
 	{
 		gpGlobals->cdAudioTrack = atoi(pkvd->szValue);
 		pkvd->fHandled = TRUE;
