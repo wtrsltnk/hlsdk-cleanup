@@ -512,7 +512,7 @@ void IN_ScoreDown(void)
 	KeyDown(&in_score);
 	if ( gViewPort )
 	{
-		gViewPort->ShowScoreBoard();
+        gViewPort->ShowScoreBoard();
 	}
 }
 

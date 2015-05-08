@@ -184,7 +184,8 @@ int gmsgSetFOV = 0;
 int gmsgShowMenu = 0;
 int gmsgGeigerRange = 0;
 int gmsgTeamNames = 0;
-int gmsgClock = 0;
+int gmsgClockStart = 0;
+int gmsgClockFinish = 0;
 int gmsgVGUIMenu = 0; // VGUI Tutorial
 
 int gmsgStatusText = 0;
@@ -233,8 +234,9 @@ void LinkUserMessages( void )
 	gmsgShake = REG_USER_MSG("ScreenShake", sizeof(ScreenShake));
 	gmsgFade = REG_USER_MSG("ScreenFade", sizeof(ScreenFade));
 	gmsgAmmoX = REG_USER_MSG("AmmoX", 2);
-	gmsgTeamNames = REG_USER_MSG( "TeamNames", -1 );
-    gmsgClock = REG_USER_MSG("Clock",3);
+    gmsgTeamNames = REG_USER_MSG( "TeamNames", -1 );
+    gmsgClockStart = REG_USER_MSG( "ClockStart",3 );
+    gmsgClockFinish = REG_USER_MSG( "ClockFinish",-1 );
     gmsgVGUIMenu = REG_USER_MSG("VGUIMenu", 1); // VGUI Tutorial
 
 	gmsgStatusText = REG_USER_MSG("StatusText", -1);

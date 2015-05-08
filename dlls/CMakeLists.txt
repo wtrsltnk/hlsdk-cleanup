@@ -180,7 +180,6 @@ set(HDR_HL_DLL
 	../pm_shared/pm_shared.h
 	../public/archtypes.h
 	../public/steam/steamtypes.h
-	../utils/common/mathlib.h
 )
 
 add_library(game SHARED ${SRC_HL_DLL} ${HDR_HL_DLL})
@@ -196,7 +195,7 @@ include_directories(
 	../public
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DCLIENT_WEAPONS")
+add_definitions(-DCLIENT_WEAPONS)
 
 SET_TARGET_PROPERTIES(game PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/dlls/hl.def\" /NODEFAULTLIB:mfc110d")
 

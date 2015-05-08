@@ -1106,12 +1106,19 @@ void TeamFortressViewport::ShowScoreBoard( void )
 	if (m_pScoreBoard)
 	{
 		// No Scoreboard in single-player
-		if ( gEngfuncs.GetMaxClients() > 1 )
+        if ( gEngfuncs.GetMaxClients() > 1 )
 		{
-			m_pScoreBoard->Open();
-			UpdateCursorState();
+            m_pScoreBoard->Open();
+            UpdateCursorState();
 		}
 	}
+}
+
+void TeamFortressViewport::ShowFinish()
+{
+    m_pFirstMenu->Open();
+    g_iVisibleMouse = true;
+    App::getInstance()->setCursorOveride( App::getInstance()->getScheme()->getCursor(Scheme::scu_arrow) );
 }
 
 //-----------------------------------------------------------------------------
@@ -1533,7 +1540,7 @@ void TeamFortressViewport::ShowVGUIMenu( int iMenu )
 
 	switch ( iMenu )
 	{
-	case MENU_TEAM:		
+    case MENU_TEAM:
 		pNewMenu = ShowTeamMenu(); 
 		break;
 
@@ -1556,12 +1563,9 @@ void TeamFortressViewport::ShowVGUIMenu( int iMenu )
 	case MENU_CLASS:
 		pNewMenu = ShowClassMenu();
 		break;
-
-    // Start - VGUI Tutorial
     case MENU_FIRSTMENU:
         pNewMenu = ShowFirstMenu();
         break;
-    // End - VGUI Tutorial
 
 	default:
 		break;

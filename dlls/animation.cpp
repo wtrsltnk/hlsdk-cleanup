@@ -25,7 +25,8 @@ typedef int BOOL;
 // hack into header files that we can ship
 typedef int qboolean;
 typedef unsigned char byte;
-#include "../utils/common/mathlib.h"
+#include "mathlib.h"
+#include <math.h>
 #include "const.h"
 #include "progdefs.h"
 #include "edict.h"

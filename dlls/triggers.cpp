@@ -1977,7 +1977,8 @@ void CTriggerSave::SaveTouch( CBaseEntity *pOther )
 }
 
 
-extern int gmsgClock;
+extern int gmsgClockStart;
+extern DLL_GLOBAL float g_ClockStart;
 
 class CTriggerClockStart : public CBaseTrigger
 {
@@ -1995,6 +1996,8 @@ void CTriggerClockStart::Spawn( void )
         return;
     }
 
+    PRECACHE_SOUND ("weapons/357_shot1.wav");
+
     InitTrigger();
     SetTouch( &CTriggerClockStart::StartClockTouch );
 }
@@ -2004,23 +2007,28 @@ void CTriggerClockStart::StartClockTouch( CBaseEntity *pOther )
     if ( !pOther->IsPlayer() )
         return;
 
-    UTIL_ShowMessageAll( "Clock started" );
+    EMIT_SOUND(ENT(pev), CHAN_VOICE, "weapons/357_shot1.wav", 1.0f, ATTN_NORM);
 
-    MESSAGE_BEGIN( MSG_ALL, gmsgClock );
+    g_ClockStart = gpGlobals->time;
+    MESSAGE_BEGIN( MSG_ALL, gmsgClockStart );
     WRITE_BYTE( 1 );
-    WRITE_COORD( gpGlobals->frametime );
+    WRITE_COORD( gpGlobals->time );
     MESSAGE_END();
 
     SetTouch( NULL );
 }
 
 
+extern int gmsgClockFinish;
+extern DLL_GLOBAL float g_ClockFinish;
 
 class CTriggerClockFinish : public CBaseTrigger
 {
 public:
     void Spawn( void );
+    void KeyValue( KeyValueData *pkvd );
     void EXPORT FinishClockTouch( CBaseEntity *pOther );
+    char m_szNextRun[64];
 };
 LINK_ENTITY_TO_CLASS( trigger_clock_finish, CTriggerClockFinish );
 
@@ -2036,16 +2044,31 @@ void CTriggerClockFinish::Spawn( void )
     SetTouch( &CTriggerClockFinish::FinishClockTouch );
 }
 
+void CTriggerClockFinish :: KeyValue( KeyValueData *pkvd )
+{
+    if (FStrEq(pkvd->szKeyName, "nextrun"))
+    {
+        strcpy(m_szNextRun, pkvd->szValue);
+        pkvd->fHandled = TRUE;
+    }
+}
+
 void CTriggerClockFinish::FinishClockTouch( CBaseEntity *pOther )
 {
     if ( !pOther->IsPlayer() )
         return;
 
-    UTIL_ShowMessageAll( "Clock finished" );
+    g_ClockFinish = gpGlobals->time;
 
-    MESSAGE_BEGIN( MSG_ALL, gmsgClock );
+    float f = float((g_ClockFinish - g_ClockStart) * 1000.0f);
+
+    MESSAGE_BEGIN( MSG_ALL, gmsgClockFinish );
     WRITE_BYTE( 2 );
-    WRITE_COORD( gpGlobals->frametime );
+    WRITE_LONG( int(f) );
+    WRITE_STRING( this->m_szNextRun );
+    MESSAGE_END();
+
+    MESSAGE_BEGIN(MSG_ALL, SVC_INTERMISSION);
     MESSAGE_END();
 
     SetTouch( NULL );

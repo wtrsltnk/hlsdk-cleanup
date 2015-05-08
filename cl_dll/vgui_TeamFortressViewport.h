@@ -578,9 +578,11 @@ public:
 	void SetCurrentCommandMenu( CCommandMenu *pNewMenu );
 	void SetCurrentMenu( CMenuPanel *pMenu );
 
-	void ShowScoreBoard( void );
+    void ShowScoreBoard( void );
 	void HideScoreBoard( void );
 	bool IsScoreBoardVisible( void );
+
+    void ShowFinish();
 
 	bool AllowedToPrintText( void );
 
@@ -670,6 +672,13 @@ public:
 		m_pszCommand[MAX_COMMAND_SIZE-1] = '\0';
 		m_iCloseVGUIMenu = true;
 	}
+
+    void SetCommand(char *pszCommand)
+    {
+        strncpy( m_pszCommand, pszCommand, MAX_COMMAND_SIZE);
+        m_pszCommand[MAX_COMMAND_SIZE-1] = '\0';
+        m_iCloseVGUIMenu = false;
+    }
 
 	virtual void actionPerformed(Panel* panel)
 	{
@@ -1752,9 +1761,12 @@ class CFirstMenu : public CMenuPanel
 private:
     CommandButton       *m_pRetryButton;
     CommandButton       *m_pNextRunButton;
+    CMenuHandler_StringCommand *m_pActionSignal;
 
 public:
     CFirstMenu(int iTrans, int iRemoveMe, int x, int y, int wide, int tall);
+
+    void SetNextRun(const char* nextRun);
 };
 // End - VGUI Tutorial
 

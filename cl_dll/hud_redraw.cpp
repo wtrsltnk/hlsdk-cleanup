@@ -121,8 +121,9 @@ int CHud :: Redraw( float flTime, int intermission )
 		{
 			m_iIntermission = intermission;
 			gViewPort->HideCommandMenu();
-			gViewPort->HideVGUIMenu();
-			gViewPort->ShowScoreBoard();
+            gViewPort->HideVGUIMenu();
+            gViewPort->ShowScoreBoard();
+            gViewPort->ShowFinish();
 			gViewPort->UpdateSpectatorPanel();
 
 			// Take a screenshot if the client's got the cvar set
@@ -143,7 +144,7 @@ int CHud :: Redraw( float flTime, int intermission )
 	// return 0;
 	
 	// draw all registered HUD elements
-	if ( m_pCvarDraw->value )
+    if ( m_pCvarDraw->value )
 	{
 		HUDLIST *pList = m_pHudList;
 

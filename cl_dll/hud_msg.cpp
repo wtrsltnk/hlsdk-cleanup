@@ -128,24 +128,39 @@ int CHud :: MsgFunc_Concuss( const char *pszName, int iSize, void *pbuf )
 	return 1;
 }
 
-int CHud :: MsgFunc_Clock( const char *pszName, int iSize, void *pbuf )
+int CHud :: MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf )
 {
     int	action;
 
     BEGIN_READ( pbuf, iSize );
     action = READ_BYTE();
-    if (action == 1 && this->m_bClockStarted == false)
+    if (this->m_bClockStarted == false)
     {
         this->m_bClockStarted = true;
         this->m_bClockFinished = false;
         this->m_flClockStartTime = gHUD.m_flTime;
     }
-    else if (action == 2 && this->m_bClockStarted && this->m_bClockFinished == false)
+
+    return 1;
+}
+
+int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
+{
+    int	action;
+    int time;
+    char szNextRun[64];
+
+    BEGIN_READ( pbuf, iSize );
+    action = READ_BYTE();
+    time = READ_LONG();
+    strcpy(szNextRun, READ_STRING());
+    if (this->m_bClockStarted && this->m_bClockFinished == false)
     {
         this->m_bClockFinished = true;
+        this->m_bClockStarted = false;
         this->m_flClockFinishTime = gHUD.m_flTime;
         gViewPort->ShowVGUIMenu(MENU_FIRSTMENU);
+        gViewPort->m_pFirstMenu->SetNextRun(szNextRun);
     }
-
     return 1;
 }
