@@ -147,19 +147,25 @@ int CHud :: MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf )
 int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
 {
     int	action;
-    int time;
+    int totalmil, mil, totalsec, sec, min;
     char szNextRun[64];
+    char szFinalTime[64];
 
     BEGIN_READ( pbuf, iSize );
     action = READ_BYTE();
-    time = READ_LONG();
+    totalmil = READ_LONG();
+    mil = totalmil % 1000;
+    totalsec = (totalmil-mil) / 1000;
+    sec = totalsec % 60;
+    min = (totalsec-sec) / 60;
+    sprintf(szFinalTime, "%02d:%02d.%03d", min, sec, mil);
+    gViewPort->m_pFirstMenu->SetFinalTime(szFinalTime);
     strcpy(szNextRun, READ_STRING());
     if (this->m_bClockStarted && this->m_bClockFinished == false)
     {
         this->m_bClockFinished = true;
         this->m_bClockStarted = false;
         this->m_flClockFinishTime = gHUD.m_flTime;
-        gViewPort->ShowVGUIMenu(MENU_FIRSTMENU);
         gViewPort->m_pFirstMenu->SetNextRun(szNextRun);
     }
     return 1;

@@ -200,10 +200,19 @@ int CHud :: Redraw( float flTime, int intermission )
 
     if (this->m_bClockStarted)
     {
+        int totalmil, mil, totalsec, sec, min;
+
         if (this->m_bClockFinished == false)
-            sprintf_s(clock_time, "%f", this->m_flTime - this->m_flClockStartTime);
+            totalmil = float((this->m_flTime - this->m_flClockStartTime) * 1000.0f);
         else
-            sprintf_s(clock_time, "%f", this->m_flClockFinishTime - this->m_flClockStartTime);
+            totalmil = float((this->m_flClockFinishTime - this->m_flClockStartTime) * 1000.0f);
+
+        mil = totalmil % 1000;
+        totalsec = (totalmil-mil) / 1000;
+        sec = totalsec % 60;
+        min = (totalsec-sec) / 60;
+        sprintf(clock_time, "%02d:%02d.%03d", min, sec, mil);
+
         DrawHudString(20, 20, 0, clock_time, 100, 100, 100 );
     }
 

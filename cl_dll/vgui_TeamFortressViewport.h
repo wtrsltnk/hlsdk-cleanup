@@ -1761,11 +1761,13 @@ class CFirstMenu : public CMenuPanel
 private:
     CommandButton       *m_pRetryButton;
     CommandButton       *m_pNextRunButton;
+    Label               *m_pFinalTime;
     CMenuHandler_StringCommand *m_pActionSignal;
 
 public:
     CFirstMenu(int iTrans, int iRemoveMe, int x, int y, int wide, int tall);
 
+    void SetFinalTime(const char* finaltime);
     void SetNextRun(const char* nextRun);
 };
 // End - VGUI Tutorial
