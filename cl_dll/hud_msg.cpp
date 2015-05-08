@@ -159,14 +159,14 @@ int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
     sec = totalsec % 60;
     min = (totalsec-sec) / 60;
     sprintf(szFinalTime, "%02d:%02d.%03d", min, sec, mil);
-    gViewPort->m_pFirstMenu->SetFinalTime(szFinalTime);
+    gViewPort->m_pFinishSummaryPanel->SetFinalTime(szFinalTime);
     strcpy(szNextRun, READ_STRING());
     if (this->m_bClockStarted && this->m_bClockFinished == false)
     {
         this->m_bClockFinished = true;
         this->m_bClockStarted = false;
         this->m_flClockFinishTime = gHUD.m_flTime;
-        gViewPort->m_pFirstMenu->SetNextRun(szNextRun);
+        gViewPort->m_pFinishSummaryPanel->SetNextRun(szNextRun);
     }
     return 1;
 }

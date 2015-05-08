@@ -68,12 +68,9 @@ public:
 		return ScreenHeight - gHUD.m_iFontHeight*3 - 6;
 	}
 
-	virtual bool			CanShowSpeakerLabels()
+    virtual bool CanShowSpeakerLabels()
 	{
-		if( gViewPort && gViewPort->m_pScoreBoard )
-			return !gViewPort->m_pScoreBoard->isVisible();
-		else
-			return false;
+        return false;
 	}
 };
 static CHLVoiceStatusHelper g_VoiceStatusHelper;

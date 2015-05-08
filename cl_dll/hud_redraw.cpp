@@ -113,8 +113,7 @@ int CHud :: Redraw( float flTime, int intermission )
 		{
 			// Have to do this here so the scoreboard goes away
 			m_iIntermission = intermission;
-			gViewPort->HideCommandMenu();
-			gViewPort->HideScoreBoard();
+            gViewPort->HideCommandMenu();
 			gViewPort->UpdateSpectatorPanel();
 		}
 		else if ( !m_iIntermission && intermission )
@@ -122,9 +121,10 @@ int CHud :: Redraw( float flTime, int intermission )
 			m_iIntermission = intermission;
 			gViewPort->HideCommandMenu();
             gViewPort->HideVGUIMenu();
-            gViewPort->ShowScoreBoard();
-            gViewPort->ShowFinish();
 			gViewPort->UpdateSpectatorPanel();
+
+            // When we go into intermission, it means the run is done and we show the summary
+            gViewPort->ShowFinishSummary();
 
 			// Take a screenshot if the client's got the cvar set
 			if ( CVAR_GET_FLOAT( "hud_takesshots" ) != 0 )

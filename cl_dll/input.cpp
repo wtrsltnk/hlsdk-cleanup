@@ -108,7 +108,6 @@ kbutton_t	in_down;
 kbutton_t	in_duck;
 kbutton_t	in_reload;
 kbutton_t	in_alt1;
-kbutton_t	in_score;
 kbutton_t	in_break;
 kbutton_t	in_graph;  // Display the netgraph
 
@@ -507,24 +506,6 @@ void IN_Impulse (void)
 	in_impulse = atoi( gEngfuncs.Cmd_Argv(1) );
 }
 
-void IN_ScoreDown(void)
-{
-	KeyDown(&in_score);
-	if ( gViewPort )
-	{
-        gViewPort->ShowScoreBoard();
-	}
-}
-
-void IN_ScoreUp(void)
-{
-	KeyUp(&in_score);
-	if ( gViewPort )
-	{
-		gViewPort->HideScoreBoard();
-	}
-}
-
 void IN_MLookUp (void)
 {
 	KeyUp( &in_mlook );
@@ -854,12 +835,7 @@ int CL_ButtonBits( int bResetState )
 	if (in_alt1.state & 3)
 	{
 		bits |= IN_ALT1;
-	}
-
-	if ( in_score.state & 3 )
-	{
-		bits |= IN_SCORE;
-	}
+    }
 
 	// Dead or in intermission? Shore scoreboard, too
 	if ( CL_IsDead() || gHUD.m_iIntermission )
@@ -881,8 +857,7 @@ int CL_ButtonBits( int bResetState )
 		in_moveright.state &= ~2;
 		in_attack2.state &= ~2;
 		in_reload.state &= ~2;
-		in_alt1.state &= ~2;
-		in_score.state &= ~2;
+        in_alt1.state &= ~2;
 	}
 
 	return bits;
@@ -965,11 +940,7 @@ void InitInput (void)
 	gEngfuncs.pfnAddCommand ("+reload", IN_ReloadDown);
 	gEngfuncs.pfnAddCommand ("-reload", IN_ReloadUp);
 	gEngfuncs.pfnAddCommand ("+alt1", IN_Alt1Down);
-	gEngfuncs.pfnAddCommand ("-alt1", IN_Alt1Up);
-	gEngfuncs.pfnAddCommand ("+score", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-score", IN_ScoreUp);
-	gEngfuncs.pfnAddCommand ("+showscores", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-showscores", IN_ScoreUp);
+    gEngfuncs.pfnAddCommand ("-alt1", IN_Alt1Up);
 	gEngfuncs.pfnAddCommand ("+graph", IN_GraphDown);
 	gEngfuncs.pfnAddCommand ("-graph", IN_GraphUp);
 	gEngfuncs.pfnAddCommand ("+break",IN_BreakDown);

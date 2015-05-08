@@ -145,21 +145,6 @@ void SpectatorMenu( void )
 	gViewPort->m_pSpectatorPanel->ShowMenu( atoi( gEngfuncs.Cmd_Argv(1))!=0  );
 }
 
-void ToggleScores( void )
-{
-	if ( gViewPort )
-	{
-		if (gViewPort->IsScoreBoardVisible() )
-		{
-			gViewPort->HideScoreBoard();
-		}
-		else
-		{
-			gViewPort->ShowScoreBoard();
-		}
-	}
-}
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -182,8 +167,7 @@ int CHudSpectator::Init()
 	gEngfuncs.pfnAddCommand ("spec_mode", SpectatorMode );
 	gEngfuncs.pfnAddCommand ("spec_decal", SpectatorSpray );
 	gEngfuncs.pfnAddCommand ("spec_help", SpectatorHelp );
-	gEngfuncs.pfnAddCommand ("spec_menu", SpectatorMenu );
-	gEngfuncs.pfnAddCommand ("togglescores", ToggleScores );
+    gEngfuncs.pfnAddCommand ("spec_menu", SpectatorMenu );
 
 	m_drawnames		= gEngfuncs.pfnRegisterVariable("spec_drawnames","1",0);
 	m_drawcone		= gEngfuncs.pfnRegisterVariable("spec_drawcone","1",0);

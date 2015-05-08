@@ -518,8 +518,7 @@ TeamFortressViewport::TeamFortressViewport(int x,int y,int wide,int tall) : Pane
 	m_iInitialized = false;
 	m_pTeamMenu = NULL;
 	m_pClassMenu = NULL;
-    m_pFirstMenu = NULL; // VGUI Tutorial
-	m_pScoreBoard = NULL;
+    m_pFinishSummaryPanel = NULL; // VGUI Tutorial
 	m_pSpectatorPanel = NULL;
 	m_pCurrentMenu = NULL;
 	m_pCurrentCommandMenu = NULL;
@@ -579,9 +578,8 @@ TeamFortressViewport::TeamFortressViewport(int x,int y,int wide,int tall) : Pane
 	// VGUI MENUS
 	CreateTeamMenu();
 	CreateClassMenu();
-    CreateFirstMenu(); // VGUI Tutorial
-	CreateSpectatorMenu();
-	CreateScoreBoard();
+    CreateFinishSummary();
+    CreateSpectatorMenu();
 	// Init command menus
 	m_iNumMenus = 0;
 	m_iCurrentTeamNumber = m_iUser1 = m_iUser2 = m_iUser3 = 0;
@@ -622,18 +620,11 @@ void TeamFortressViewport::Initialize( void )
 	if (m_pClassMenu)
 	{
 		m_pClassMenu->Initialize();
-	}
-    // Start - VGUI Tutorial
-    if (m_pFirstMenu)
-    {
-        m_pFirstMenu->setVisible( false );
     }
-    // End - VGUI Tutorial
-	if (m_pScoreBoard)
-	{
-		m_pScoreBoard->Initialize();
-		HideScoreBoard();
-	}
+    if (m_pFinishSummaryPanel)
+    {
+        m_pFinishSummaryPanel->setVisible( false );
+    }
 	if (m_pSpectatorPanel)
 	{
 		// Spectator menu doesn't need initializing
@@ -646,8 +637,7 @@ void TeamFortressViewport::Initialize( void )
 
 	// Clear out some data
 	m_iGotAllMOTD = true;
-	m_iRandomPC = false;
-	m_flScoreBoardLastUpdated = 0;
+    m_iRandomPC = false;
 	m_flSpectatorPanelLastUpdated = 0;
 
 	// reset player info
@@ -1098,57 +1088,11 @@ void TeamFortressViewport::HideCommandMenu()
 	UpdateCursorState();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: Bring up the scoreboard
-//-----------------------------------------------------------------------------
-void TeamFortressViewport::ShowScoreBoard( void )
+void TeamFortressViewport::ShowFinishSummary()
 {
-	if (m_pScoreBoard)
-	{
-		// No Scoreboard in single-player
-        if ( gEngfuncs.GetMaxClients() > 1 )
-		{
-            m_pScoreBoard->Open();
-            UpdateCursorState();
-		}
-	}
-}
-
-void TeamFortressViewport::ShowFinish()
-{
-    m_pFirstMenu->Open();
+    m_pFinishSummaryPanel->Open();
     g_iVisibleMouse = true;
     App::getInstance()->setCursorOveride( App::getInstance()->getScheme()->getCursor(Scheme::scu_arrow) );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Returns true if the scoreboard is up
-//-----------------------------------------------------------------------------
-bool TeamFortressViewport::IsScoreBoardVisible( void )
-{
-	if (m_pScoreBoard)
-		return m_pScoreBoard->isVisible();
-
-	return false;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Hide the scoreboard
-//-----------------------------------------------------------------------------
-void TeamFortressViewport::HideScoreBoard( void )
-{
-	// Prevent removal of scoreboard during intermission
-	if ( gHUD.m_iIntermission )
-		return;
-
-	if (m_pScoreBoard)
-	{
-		m_pScoreBoard->setVisible(false);
-
-		GetClientVoiceMgr()->StopSquelchMode();
-
-		UpdateCursorState();
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1376,26 +1320,6 @@ void TeamFortressViewport::UpdateSpectatorPanel()
 	m_flSpectatorPanelLastUpdated = gHUD.m_flTime + 1.0; // update every second
 }
 
-//======================================================================
-void TeamFortressViewport::CreateScoreBoard( void )
-{
-	int xdent = SBOARD_INDENT_X, ydent = SBOARD_INDENT_Y;
-	if (ScreenWidth == 512)
-	{
-		xdent = SBOARD_INDENT_X_512; 
-		ydent = SBOARD_INDENT_Y_512;
-	}
-	else if (ScreenWidth == 400)
-	{
-		xdent = SBOARD_INDENT_X_400; 
-		ydent = SBOARD_INDENT_Y_400;
-	}
-
-	m_pScoreBoard = new ScorePanel(xdent, ydent, ScreenWidth - (xdent * 2), ScreenHeight - (ydent * 2));
-	m_pScoreBoard->setParent(this);
-	m_pScoreBoard->setVisible(false);
-}
-
 void TeamFortressViewport::CreateServerBrowser( void )
 {
 	m_pServerBrowser = new ServerBrowser( 0, 0, ScreenWidth, ScreenHeight );
@@ -1562,9 +1486,6 @@ void TeamFortressViewport::ShowVGUIMenu( int iMenu )
 		break;
 	case MENU_CLASS:
 		pNewMenu = ShowClassMenu();
-		break;
-    case MENU_FIRSTMENU:
-        pNewMenu = ShowFirstMenu();
         break;
 
 	default:
@@ -1688,29 +1609,17 @@ void TeamFortressViewport::CreateClassMenu()
 	m_pClassMenu->setVisible( false );
 }
 
-// Start - VGUI Tutorial
 //======================================================================================
-// OUR FIRST MENU
+// FINISH SUMARY
 //======================================================================================
-// Show the FirstMenu
-CMenuPanel* TeamFortressViewport::ShowFirstMenu()
-{
-    // Don't open menus in demo playback
-    if ( gEngfuncs.pDemoAPI->IsPlayingback() )
-        return NULL;
-
-    m_pFirstMenu->Reset();
-    return m_pFirstMenu;
-}
-
-void TeamFortressViewport::CreateFirstMenu()
+// Bring up the finish summary
+void TeamFortressViewport::CreateFinishSummary()
 {
     // Create the panel
-    m_pFirstMenu = new CFirstMenu(100, false, 0, 0, ScreenWidth, ScreenHeight);
-    m_pFirstMenu->setParent(this);
-    m_pFirstMenu->setVisible( false );
+    m_pFinishSummaryPanel = new CFinishSummary(100, false, 0, 0, ScreenWidth, ScreenHeight);
+    m_pFinishSummaryPanel->setParent(this);
+    m_pFinishSummaryPanel->setVisible( false );
 }
-// End - VGUI Tutorial
 
 //======================================================================================
 //======================================================================================
@@ -1736,9 +1645,7 @@ void TeamFortressViewport::UpdateOnPlayerInfo()
 	if (m_pTeamMenu)
 		m_pTeamMenu->Update();
 	if (m_pClassMenu)
-		m_pClassMenu->Update();
-	if (m_pScoreBoard)
-		m_pScoreBoard->Update();
+        m_pClassMenu->Update();
 }
 
 void TeamFortressViewport::UpdateCursorState()
@@ -1781,10 +1688,7 @@ void TeamFortressViewport::GetAllPlayersInfo( void )
 {
 	for ( int i = 1; i < MAX_PLAYERS; i++ )
 	{
-		gEngfuncs.pfnGetPlayerInfo( i, &g_PlayerInfoList[i] );
-
-		if ( g_PlayerInfoList[i].thisplayer )
-			m_pScoreBoard->m_iPlayerNum = i;  // !!!HACK: this should be initialized elsewhere... maybe gotten from the engine
+        gEngfuncs.pfnGetPlayerInfo( i, &g_PlayerInfoList[i] );
 	}
 }
 
@@ -1792,13 +1696,7 @@ void TeamFortressViewport::paintBackground()
 {
 	int wide, tall;
 	getParent()->getSize( wide, tall );
-	setSize( wide, tall );
-	if (m_pScoreBoard)
-	{
-		int x, y;
-		getApp()->getCursorPos(x, y);
-		m_pScoreBoard->cursorMoved(x, y, m_pScoreBoard);
-	}
+    setSize( wide, tall );
 
 	// See if the command menu is visible and needs recalculating due to some external change
 	if ( g_iTeamNumber != m_iCurrentTeamNumber )
@@ -1825,14 +1723,7 @@ void TeamFortressViewport::paintBackground()
 			( m_flSpectatorPanelLastUpdated < gHUD.m_flTime ) )
 	{
 		UpdateSpectatorPanel();
-	}
-
-	// Update the Scoreboard, if it's visible
-	if ( m_pScoreBoard->isVisible() && (m_flScoreBoardLastUpdated < gHUD.m_flTime) )
-	{
-		m_pScoreBoard->Update();
-		m_flScoreBoardLastUpdated = gHUD.m_flTime + 0.5;
-	}
+    }
 
 	int extents[4];
 	getAbsExtents(extents[0],extents[1],extents[2],extents[3]);
@@ -2153,22 +2044,8 @@ int TeamFortressViewport::MsgFunc_TeamScore( const char *pszName, int iSize, voi
 {
 	BEGIN_READ( pbuf, iSize );
 	char *TeamName = READ_STRING();
-
-	// find the team matching the name
-	int i;
-	for ( i = 1; i <= m_pScoreBoard->m_iNumTeams; i++ )
-	{
-		if ( !stricmp( TeamName, g_TeamInfo[i].name ) )
-			break;
-	}
-
-	if ( i > m_pScoreBoard->m_iNumTeams )
-		return 1;
-
-	// use this new score data instead of combined player scoresw
-	g_TeamInfo[i].scores_overriden = TRUE;
-	g_TeamInfo[i].frags = READ_SHORT();
-	g_TeamInfo[i].deaths = READ_SHORT();
+    short frags = READ_SHORT();
+    short deaths = READ_SHORT();
 
 	return 1;
 }
@@ -2179,9 +2056,6 @@ int TeamFortressViewport::MsgFunc_TeamScore( const char *pszName, int iSize, voi
 //		string: client team name
 int TeamFortressViewport::MsgFunc_TeamInfo( const char *pszName, int iSize, void *pbuf )
 {
-	if (!m_pScoreBoard)
-		return 1;
-
 	BEGIN_READ( pbuf, iSize );
 	short cl = READ_BYTE();
 	
@@ -2191,15 +2065,11 @@ int TeamFortressViewport::MsgFunc_TeamInfo( const char *pszName, int iSize, void
 		strncpy( g_PlayerExtraInfo[cl].teamname, READ_STRING(), MAX_TEAM_NAME );
 	}
 
-	// rebuild the list of teams
-	m_pScoreBoard->RebuildTeams();
-
 	return 1;
 }
 
 void TeamFortressViewport::DeathMsg( int killer, int victim )
 {
-	m_pScoreBoard->DeathMsg(killer,victim);
 }
 
 int TeamFortressViewport::MsgFunc_Spectator( const char *pszName, int iSize, void *pbuf )

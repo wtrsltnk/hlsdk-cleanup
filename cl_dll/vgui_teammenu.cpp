@@ -44,7 +44,17 @@
 #define TEAMMENU_WINDOW_TEXT_SIZE_Y		YRES(178)
 #define TEAMMENU_WINDOW_INFO_X			XRES(16)
 #define TEAMMENU_WINDOW_INFO_Y			YRES(234)
-      
+
+extern hud_player_info_t	 g_PlayerInfoList[MAX_PLAYERS+1];	   // player info from the engine
+extern extra_player_info_t  g_PlayerExtraInfo[MAX_PLAYERS+1];   // additional player info sent directly to the client dll
+team_info_t			 g_TeamInfo[MAX_TEAMS+1];
+int					 g_IsSpectator[MAX_PLAYERS+1];
+
+bool HACK_GetPlayerUniqueID( int iPlayer, char playerID[16] )
+{
+    return !!gEngfuncs.GetPlayerUniqueID( iPlayer, playerID ); // TODO remove after testing
+}
+
 // Creation
 CTeamMenuPanel::CTeamMenuPanel(int iTrans, int iRemoveMe, int x,int y,int wide,int tall) : CMenuPanel(iTrans, iRemoveMe, x,y,wide,tall)
 {

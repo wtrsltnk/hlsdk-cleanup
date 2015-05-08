@@ -42,11 +42,10 @@ set(SRC_HL_CDLL
 	vgui_ClassMenu.cpp
 	vgui_ControlConfigPanel.cpp
 	vgui_CustomObjects.cpp
-	vgui_firstmenu.cpp
+	vgui_FinishSummaryPanel.cpp
 	vgui_int.cpp
 	vgui_MOTDWindow.cpp
 	vgui_SchemeManager.cpp
-	vgui_ScorePanel.cpp
 	vgui_ServerBrowser.cpp
 	vgui_SpectatorPanel.cpp
 	vgui_TeamFortressViewport.cpp
@@ -116,7 +115,6 @@ set(HDR_HL_CDLL
 	vgui_ControlConfigPanel.h
 	vgui_int.h
 	vgui_SchemeManager.h
-	vgui_ScorePanel.h
 	vgui_ServerBrowser.h
 	vgui_SpectatorPanel.h
 	vgui_TeamFortressViewport.h

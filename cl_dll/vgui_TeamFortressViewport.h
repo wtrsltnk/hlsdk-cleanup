@@ -37,7 +37,7 @@
 #define MENU_CLASSHELP2 			7
 #define MENU_REPEATHELP 			8
 #define MENU_SPECHELP				9
-#define MENU_FIRSTMENU              10
+#define MENU_FINISH_SUMMARY         10
 using namespace vgui;
 
 class Cursor;
@@ -54,7 +54,7 @@ class DragNDropPanel;
 class CTransparentPanel;
 class CClassMenuPanel;
 class CTeamMenuPanel;
-class CFirstMenu; // VGUI Tutorial
+class CFinishSummary; // VGUI Tutorial
 class TeamFortressViewport;
 
 char* GetVGUITGAName(const char *pszName);
@@ -495,8 +495,7 @@ private:
 
 	CCommandMenu *m_pCommandMenus[ MAX_MENUS ];
 	CCommandMenu *m_pCurrentCommandMenu;
-	float		 m_flMenuOpenTime;
-	float		 m_flScoreBoardLastUpdated;
+    float		 m_flMenuOpenTime;
 	float		 m_flSpectatorPanelLastUpdated;
 	int			 m_iNumMenus;
 	int			 m_iCurrentTeamNumber;
@@ -509,11 +508,8 @@ private:
 	void		 CreateTeamMenu( void );
 	CMenuPanel*	 ShowTeamMenu( void );
 	void		 CreateClassMenu( void );
-	CMenuPanel*	 ShowClassMenu( void );
-    // Start - VGUI Tutorial
-    void         CreateFirstMenu( void );
-    CMenuPanel*  ShowFirstMenu( void );
-    // End - VGUI Tutorial
+    CMenuPanel*	 ShowClassMenu( void );
+    void         CreateFinishSummary( void );
 	void		 CreateSpectatorMenu( void );
 	
 	// Scheme handler
@@ -556,10 +552,9 @@ public:
 	void Initialize( void );
 
 	int		CreateCommandMenu( char * menuFile, int direction, int yOffset, bool flatDesign, float flButtonSizeX, float flButtonSizeY, int xOffset );
-	void	CreateScoreBoard( void );
-	void	CreateServerBrowser( void );
-	CommandButton * CreateCustomButton( char *pButtonText, char * pButtonName, int  iYOffset );
-	CCommandMenu *	CreateDisguiseSubmenu( CommandButton *pButton, CCommandMenu *pParentMenu, const char *commandText, int iYOffset, int iXOffset = 0 );
+    void	CreateServerBrowser( void );
+    CommandButton *CreateCustomButton( char *pButtonText, char * pButtonName, int  iYOffset );
+    CCommandMenu *CreateDisguiseSubmenu( CommandButton *pButton, CCommandMenu *pParentMenu, const char *commandText, int iYOffset, int iXOffset = 0 );
 
 	void UpdateCursorState( void );
 	void UpdateCommandMenu(int menuIndex);
@@ -578,11 +573,7 @@ public:
 	void SetCurrentCommandMenu( CCommandMenu *pNewMenu );
 	void SetCurrentMenu( CMenuPanel *pMenu );
 
-    void ShowScoreBoard( void );
-	void HideScoreBoard( void );
-	bool IsScoreBoardVisible( void );
-
-    void ShowFinish();
+    void ShowFinishSummary();
 
 	bool AllowedToPrintText( void );
 
@@ -629,8 +620,7 @@ public:
 
 	virtual void paintBackground();
 
-	CSchemeManager *GetSchemeManager( void ) { return &m_SchemeManager; }
-	ScorePanel *GetScoreBoard( void ) { return m_pScoreBoard; }
+    CSchemeManager *GetSchemeManager( void ) { return &m_SchemeManager; }
 
 	void *operator new( size_t stAllocateBlock );
 
@@ -643,8 +633,7 @@ public:
 	int						m_SpectatorCameraMenu;
 	int						m_PlayerMenu; // a list of current player
 	CClassMenuPanel	*m_pClassMenu;
-    CFirstMenu      *m_pFirstMenu; // VGUI Tutorial
-	ScorePanel		*m_pScoreBoard;
+    CFinishSummary      *m_pFinishSummaryPanel;
 	SpectatorPanel *		m_pSpectatorPanel;
 	char			m_szServerName[ MAX_SERVERNAME_LENGTH ];
 };
@@ -1756,16 +1745,17 @@ public:
 //================================================================
 // First VGUI menu!
 //============================================================
-class CFirstMenu : public CMenuPanel
+class CFinishSummary : public CMenuPanel
 {
 private:
     CommandButton       *m_pRetryButton;
     CommandButton       *m_pNextRunButton;
+    CommandButton       *m_pQuitButton;
     Label               *m_pFinalTime;
     CMenuHandler_StringCommand *m_pActionSignal;
 
 public:
-    CFirstMenu(int iTrans, int iRemoveMe, int x, int y, int wide, int tall);
+    CFinishSummary(int iTrans, int iRemoveMe, int x, int y, int wide, int tall);
 
     void SetFinalTime(const char* finaltime);
     void SetNextRun(const char* nextRun);
