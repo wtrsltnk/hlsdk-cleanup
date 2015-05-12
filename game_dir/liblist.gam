@@ -1,0 +1,11 @@
+// Valve Game Info file
+//  These are key/value pairs.  Certain mods will use different settings.
+//
+gamedir "rjr"
+game "Run-Jump-Retry"
+trainmap "test01"
+startmap "test01"
+gamedll "dlls\game.dll"
+type "singleplayer_only"
+cldll "1"
+svonl "0"

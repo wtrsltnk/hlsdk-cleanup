@@ -30,7 +30,7 @@
 @SolidClass = worldspawn : "World entity"
 [
 	message(string) : "Map Description / Title"
-	reportid(string) : "Map Id for upload run results"
+	mapid(string) : "Map Id for upload run results"
 	skyname(string) : "environment map (cl_skyname)"
 	sounds(integer) : "CD track to play" : 1
 	light(integer) : "Default light level"
