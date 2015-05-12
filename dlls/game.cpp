@@ -18,6 +18,7 @@
 #include "game.h"
 
 cvar_t	displaysoundlist = {"displaysoundlist","0"};
+cvar_t	scoreserver = {"scoreserver","localhost:55032" };
 
 // multiplayer server rules
 cvar_t	fragsleft	= {"mp_fragsleft","0", FCVAR_SERVER | FCVAR_UNLOGGED };	  // Don't spam console/log files/users with this changing
@@ -460,8 +461,9 @@ void GameDLLInit( void )
 	g_psv_aim = CVAR_GET_POINTER( "sv_aim" );
 	g_footsteps = CVAR_GET_POINTER( "mp_footsteps" );
 
-	CVAR_REGISTER (&displaysoundlist);
-	CVAR_REGISTER( &allow_spectators );
+    CVAR_REGISTER (&displaysoundlist);
+    CVAR_REGISTER (&scoreserver);
+    CVAR_REGISTER( &allow_spectators );
 
 	CVAR_REGISTER (&teamplay);
 	CVAR_REGISTER (&fraglimit);

@@ -39,3 +39,4 @@ DLL_GLOBAL const Vector	g_vecZero = Vector(0,0,0);
 DLL_GLOBAL int			g_Language;
 DLL_GLOBAL float		g_ClockStart;
 DLL_GLOBAL float		g_ClockFinish;
+DLL_GLOBAL char			g_MapId[32];

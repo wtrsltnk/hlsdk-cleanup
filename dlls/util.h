@@ -231,7 +231,7 @@ extern int			UTIL_EntitiesInBox( CBaseEntity **pList, int listMax, const Vector 
 
 inline void UTIL_MakeVectorsPrivate( const Vector &vecAngles, float *p_vForward, float *p_vRight, float *p_vUp )
 {
-	g_engfuncs.pfnAngleVectors( vecAngles, p_vForward, p_vRight, p_vUp );
+    g_engfuncs.pfnAngleVectors( vecAngles, p_vForward, p_vRight, p_vUp );
 }
 
 extern void			UTIL_MakeAimVectors		( const Vector &vecAngles ); // like MakeVectors, but assumes pitch isn't inverted

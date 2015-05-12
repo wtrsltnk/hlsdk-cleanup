@@ -1615,6 +1615,8 @@ void TeamFortressViewport::CreateClassMenu()
 // Bring up the finish summary
 void TeamFortressViewport::CreateFinishSummary()
 {
+    gViewPort->GetAllPlayersInfo();
+
     // Create the panel
     m_pFinishSummaryPanel = new CFinishSummary(100, false, 0, 0, ScreenWidth, ScreenHeight);
     m_pFinishSummaryPanel->setParent(this);

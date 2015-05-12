@@ -57,6 +57,7 @@ set(SRC_HL_CDLL
 	hl/hl_objects.cpp
 	hl/hl_weapons.cpp
 	../common/parsemsg.cpp
+	../common/wouter.cpp
 	../dlls/weapons/crossbow.cpp
 	../dlls/weapons/crowbar.cpp
 	../dlls/weapons/egon.cpp
@@ -378,19 +379,22 @@ include_directories(
 	../game_shared
 	../lib/vgui/include
 	../lib/SDL2/include
+	../lib/curl/include
 )
 
 add_library(client SHARED ${SRC_HL_CDLL} ${HDR_HL_CDLL})
 
-add_definitions(-DWIN32 -D_DEBUG -D_WINDOWS -DCLIENT_DLL -DCLIENT_WEAPONS)
+add_definitions(-DWIN32 -D_DEBUG -D_WINDOWS -DCLIENT_DLL -DCLIENT_WEAPONS -DCURL_STATICLIB)
 
 find_file(SDL2_LIBRARY SDL2.lib ../lib/SDL2/lib)
 find_file(VGUI_LIBRARY vgui.lib ../lib/vgui/lib/win32_vc6)
+find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib)
 
 message(STATUS "Found SDL library @ ${SDL2_LIBRARY}")
 message(STATUS "Found vgui library @ ${VGUI_LIBRARY}")
+message(STATUS "Found curl library @ ${CURL_LIBRARY}")
 
-target_link_libraries(client ${SDL2_LIBRARY} ${VGUI_LIBRARY} wsock32)
+target_link_libraries(client ${SDL2_LIBRARY} ${VGUI_LIBRARY} ${CURL_LIBRARY} wsock32)
 
 if(DEFINED MOD_FOLDER)
 	if(NOT DEFINED MOD_CDLL_INSTALL_FOLDER)

@@ -467,7 +467,8 @@ LINK_ENTITY_TO_CLASS( worldspawn, CWorld );
 #define SF_WORLD_FORCETEAM	0x0004		// Force teams
 
 extern DLL_GLOBAL BOOL		g_fGameOver;
-float g_flWeaponCheat; 
+extern DLL_GLOBAL char g_MapId[32];
+float g_flWeaponCheat;
 
 void CWorld :: Spawn( void )
 {
@@ -679,10 +680,10 @@ void CWorld :: KeyValue( KeyValueData *pkvd )
         CVAR_SET_STRING( "sv_skyname", pkvd->szValue );
         pkvd->fHandled = TRUE;
     }
-    else if ( FStrEq(pkvd->szKeyName, "reportid") )
+    else if ( FStrEq(pkvd->szKeyName, "mapid") )
     {
         // Sent over net now.
-        CVAR_SET_STRING( "sv_reportid", pkvd->szValue );
+        strncpy( g_MapId, pkvd->szValue, 32 );
         pkvd->fHandled = TRUE;
     }
     else if ( FStrEq(pkvd->szKeyName, "sounds") )

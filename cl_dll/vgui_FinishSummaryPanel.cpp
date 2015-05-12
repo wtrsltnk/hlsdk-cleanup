@@ -18,7 +18,6 @@ CFinishSummary :: CFinishSummary(int iTrans, int iRemoveMe, int x, int y, int wi
     m_pQuitButton = new CommandButton( gHUD.m_TextMessage.BufferedLocaliseTextString( "Quit" ), wide - XRES(70), tall - XRES(40), XRES(55), YRES(30));
     m_pQuitButton->setParent( this );
     m_pQuitButton->addActionSignal( new CMenuHandler_StringCommand("disconnect") );
-
 }
 
 void CFinishSummary :: SetFinalTime(const char* finaltime)
@@ -29,15 +28,18 @@ void CFinishSummary :: SetFinalTime(const char* finaltime)
 void CFinishSummary :: SetNextRun(const char* nextRun)
 {
     char cmd[MAX_COMMAND_SIZE] = { 0 };
+
+    // Create the map change command
     strcpy(cmd, "map ");
     strcat(cmd, nextRun);
+
+    // Create the action signal when its not available
     if (this->m_pActionSignal == 0)
     {
         this->m_pActionSignal = new CMenuHandler_StringCommand(cmd);
         m_pNextRunButton->addActionSignal( this->m_pActionSignal );
     }
-    else
-    {
-        this->m_pActionSignal->SetCommand(cmd);
-    }
+
+    // Set the command
+    this->m_pActionSignal->SetCommand(cmd);
 }

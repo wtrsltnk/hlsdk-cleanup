@@ -193,11 +193,18 @@ include_directories(
 	../game_shared
 	../pm_shared
 	../public
+	../lib/curl/include
 )
 
-add_definitions(-DCLIENT_WEAPONS)
+add_definitions(-DCLIENT_WEAPONS -DCURL_STATICLIB)
 
-SET_TARGET_PROPERTIES(game PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/dlls/hl.def\" /NODEFAULTLIB:mfc110d")
+find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib)
+
+message(STATUS "Found curl library @ ${CURL_LIBRARY}")
+
+set_target_properties(game PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/dlls/hl.def\" /NODEFAULTLIB:mfc110d")
+
+target_link_libraries(game ${CURL_LIBRARY})
 
 if(DEFINED MOD_FOLDER)
     if(NOT DEFINED MOD_DLL_INSTALL_FOLDER)
