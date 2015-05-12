@@ -124,7 +124,7 @@ typedef struct enginefuncs_s
 	int			(*pfnGetEntityIllum)		(edict_t* pEnt);
 	edict_t*	(*pfnFindEntityInSphere)	(edict_t *pEdictStartSearchAfter, const float *org, float rad);
 	edict_t*	(*pfnFindClientInPVS)		(edict_t *pEdict);
-	edict_t* (*pfnEntitiesInPVS)			(edict_t *pplayer);
+    edict_t*	(*pfnEntitiesInPVS)			(edict_t *pplayer);
 	void		(*pfnMakeVectors)			(const float *rgflVector);
 	void		(*pfnAngleVectors)			(const float *rgflVector, float *forward, float *right, float *up);
 	edict_t*	(*pfnCreateEntity)			(void);
@@ -184,7 +184,7 @@ typedef struct enginefuncs_s
 	int			(*pfnRegUserMsg)			(const char *pszName, int iSize);
 	void		(*pfnAnimationAutomove)		(const edict_t* pEdict, float flTime);
 	void		(*pfnGetBonePosition)		(const edict_t* pEdict, int iBone, float *rgflOrigin, float *rgflAngles );
-	uint32 (*pfnFunctionFromName)	( const char *pName );
+    uint32		(*pfnFunctionFromName)	( const char *pName );
 	const char *(*pfnNameForFunction)		( uint32 function );
 	void		(*pfnClientPrintf)			( edict_t* pEdict, PRINT_TYPE ptype, const char *szMsg ); // JOHN: engine callbacks so game DLL can print messages to individual clients
 	void		(*pfnServerPrint)			( const char *szMsg );
@@ -193,7 +193,7 @@ typedef struct enginefuncs_s
 	int			(*pfnCmd_Argc)				( void );		// access client 'cmd' strings
 	void		(*pfnGetAttachment)			(const edict_t *pEdict, int iAttachment, float *rgflOrigin, float *rgflAngles );
 	void		(*pfnCRC32_Init)			(CRC32_t *pulCRC);
-	void        (*pfnCRC32_ProcessBuffer)   (CRC32_t *pulCRC, void *p, int len);
+    void		(*pfnCRC32_ProcessBuffer)   (CRC32_t *pulCRC, void *p, int len);
 	void		(*pfnCRC32_ProcessByte)     (CRC32_t *pulCRC, unsigned char ch);
 	CRC32_t		(*pfnCRC32_Final)			(CRC32_t pulCRC);
 	int32		(*pfnRandomLong)			(int32  lLow,  int32  lHigh);
@@ -201,14 +201,14 @@ typedef struct enginefuncs_s
 	void		(*pfnSetView)				(const edict_t *pClient, const edict_t *pViewent );
 	float		(*pfnTime)					( void );
 	void		(*pfnCrosshairAngle)		(const edict_t *pClient, float pitch, float yaw);
-	byte *      (*pfnLoadFileForMe)         (char *filename, int *pLength);
-	void        (*pfnFreeFile)              (void *buffer);
-	void        (*pfnEndSection)            (const char *pszSectionName); // trigger_endsection
+    byte *		(*pfnLoadFileForMe)         (char *filename, int *pLength);
+    void		(*pfnFreeFile)              (void *buffer);
+    void		(*pfnEndSection)            (const char *pszSectionName); // trigger_endsection
 	int 		(*pfnCompareFileTime)       (char *filename1, char *filename2, int *iCompare);
-	void        (*pfnGetGameDir)            (char *szGetGameDir);
+    void		(*pfnGetGameDir)            (char *szGetGameDir);
 	void		(*pfnCvar_RegisterVariable) (cvar_t *variable);
-	void        (*pfnFadeClientVolume)      (const edict_t *pEdict, int fadePercent, int fadeOutSeconds, int holdTime, int fadeInSeconds);
-	void        (*pfnSetClientMaxspeed)     (const edict_t *pEdict, float fNewMaxspeed);
+    void		(*pfnFadeClientVolume)      (const edict_t *pEdict, int fadePercent, int fadeOutSeconds, int holdTime, int fadeInSeconds);
+    void		(*pfnSetClientMaxspeed)     (const edict_t *pEdict, float fNewMaxspeed);
 	edict_t *	(*pfnCreateFakeClient)		(const char *netname);	// returns NULL if fake client can't be created
 	void		(*pfnRunPlayerMove)			(edict_t *fakeclient, const float *viewangles, float forwardmove, float sidemove, float upmove, unsigned short buttons, byte impulse, byte msec );
 	int			(*pfnNumberOfEntities)		(void);
