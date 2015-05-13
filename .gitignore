@@ -21,3 +21,4 @@
 *.out
 *.app
 CMakeLists.txt.user*
+web_dir/submit-score/config.php
