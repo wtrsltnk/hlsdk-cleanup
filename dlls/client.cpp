@@ -613,7 +613,7 @@ void ClientCommand( edict_t *pEntity )
             float f = float((g_ClockFinish - g_ClockStart) * 1000.0f);
 
             const char* playerid = CMD_ARGV(1);
-            sprintf(szPostFields, "time=%d&playerid=%s&mapid=%s\n", int(f), playerid, g_MapId);
+            sprintf(szPostFields, "time=%d&playerid=%s&mapid=%s", int(f), playerid, g_MapId);
             char url[128] = { 0 };
 
             sprintf(url, "%s/submit-score/index.php", CVAR_GET_STRING("scoreserver"));

@@ -27,6 +27,8 @@ extern IParticleMan *g_pParticleMan;
 #include "vgui_TeamFortressViewport.h"
 extern TeamFortressViewport *gViewPort;
 
+
+#include <fstream>
 #define MAX_CLIENTS 32
 
 extern BEAM *pBeam;
@@ -158,8 +160,9 @@ int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
     int totalmil, mil, totalsec, sec, min;
     char szNextRun[64] = { 0 };
     char szFinalTime[64] = { 0 };
-    char playerID[16] = { 0 };
+    char szPlayerID[16] = { 0 };
     char szSubmitScore[64] = { 0 };
+    const char* szEncodedPlayerID = 0;
 
     // Stop demo recording
     gEngfuncs.pfnClientCmd("stop");
@@ -169,12 +172,20 @@ int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
     // score.
 
     // Grab the playerID for sumbission
-    gEngfuncs.GetPlayerUniqueID(1, playerID);
+    gEngfuncs.GetPlayerUniqueID(1, szPlayerID);
+
+    // Get the encoded version of the playerid
+    szEncodedPlayerID = GetEscapedPlayerId(szPlayerID);
 
     // Send the playerID to the server so it can submit this score under this client's Id
     strcpy(szSubmitScore, "submit_score ");
-    strcat(szSubmitScore, GetEscapedPlayerId(playerID));
+    strcat(szSubmitScore, szEncodedPlayerID);
     gEngfuncs.pfnClientCmd(szSubmitScore);
+
+    std::ofstream fs;
+    fs.open("rjr\\playerid.txt", std::ios::out);
+    fs << szEncodedPlayerID;
+    fs.close();
 
     // Lets read the real message now
     BEGIN_READ( pbuf, iSize );

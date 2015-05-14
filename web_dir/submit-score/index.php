@@ -9,18 +9,23 @@ $dbname = "";
 require_once("config.php");
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "INSERT INTO runs (playerid, mapid, time) VALUES ('".$_REQUEST['playerid']."', '".$_REQUEST['mapid']."', ".$_REQUEST['time'].")";
+$sql = "INSERT INTO rjr_runs (playerid, mapid, time) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql);
+if ($stmt == false) {
+    echo "Error: " . $sql . "<br>" . $conn->error;;
+}
+$stmt->bind_param('ssi', $_REQUEST['playerid'], $_REQUEST['mapid'], $_REQUEST['time']);
 
-if (mysqli_query($conn, $sql)) {
+if ($stmt->execute()) {
     echo "New record created successfully";
 } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    echo "Error: " . $sql . "<br>" . $conn->error;;
 }
 
 mysqli_close($conn);
