@@ -16,7 +16,7 @@ if (!$conn) {
 }
 
 $sql =	"SELECT u.name AS name, r.time AS time, r.mapid AS map ". 
-		"FROM rjr_runs r INNER JOIN rjr_players p ON p.playerid=r.playerid INNER JOIN users u ON u.uid=p.userid ".
+		"FROM rjr_runs r INNER JOIN rjr_players p ON p.playerid=r.playerid INNER JOIN cms_users u ON u.uid=p.userid ".
 		"WHERE r.mapid=? ".
 		"ORDER BY r.time ASC";
 

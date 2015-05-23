@@ -17,7 +17,7 @@ extern "C"
 #include "camera.h"
 #include "in_defs.h"
 #include "view.h"
-#include "bench.h"
+#include "hud_bench.h"
 #include <string.h>
 #include <ctype.h>
 #include "Exports.h"

@@ -31,7 +31,7 @@
 
 #include "wrect.h"
 #include "cl_dll.h"
-#include "ammo.h"
+#include "hud_ammo.h"
 
 #define DHN_DRAWZERO 1
 #define DHN_2DIGITS  2
@@ -163,7 +163,7 @@ private:
 };
 
 
-#include "health.h"
+#include "hud_health.h"
 
 
 #define FADE_TIME 100
@@ -533,6 +533,31 @@ private:
 	int 	m_nCompositeScore;
 };
 
+
+//
+//-----------------------------------------------------
+//
+class CHudClock : public CHudBase
+{
+public:
+    int Init( void );
+    int VidInit( void );
+    int Draw(float flTime);
+    void Reset( void );
+    int _cdecl MsgFunc_ClockInit( const char *pszName, int iSize, void *pbuf );
+    int _cdecl MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf );
+    int _cdecl MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf );
+
+private:
+    bool m_bClockStarted;
+    float m_flClockStartTime;
+    bool m_bClockFinished;
+    float m_flClockFinishTime;
+    const char* m_szEncodedPlayerID;
+    char m_szMapId[32];
+
+};
+
 //
 //-----------------------------------------------------
 //
@@ -556,11 +581,6 @@ public:
 	float m_flTime;	   // the current client time
 	float m_fOldTime;  // the time at which the HUD was last redrawn
     double m_flTimeDelta; // the difference between flTime and fOldTime
-
-    bool m_bClockStarted;
-    float m_flClockStartTime;
-    bool m_bClockFinished;
-    float m_flClockFinishTime;
 
     Vector	m_vecOrigin;
 	Vector	m_vecAngles;
@@ -617,6 +637,7 @@ public:
 	CHudTextMessage m_TextMessage;
 	CHudStatusIcons m_StatusIcons;
 	CHudBenchmark	m_Benchmark;
+    CHudClock		m_Clock;
 
 	void Init( void );
 	void VidInit( void );
@@ -636,8 +657,6 @@ public:
 	void _cdecl MsgFunc_ViewMode( const char *pszName, int iSize, void *pbuf );
 	int _cdecl MsgFunc_SetFOV(const char *pszName,  int iSize, void *pbuf);
     int  _cdecl MsgFunc_Concuss( const char *pszName, int iSize, void *pbuf );
-    int  _cdecl MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf );
-    int  _cdecl MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf );
 
 	// Screen information
 	SCREENINFO	m_scrinfo;

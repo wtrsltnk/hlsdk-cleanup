@@ -13,7 +13,7 @@
 #include "pm_defs.h"
 #include "event_api.h"
 
-#include "bench.h"
+#include "hud_bench.h"
 
 #include <string.h>
 #include <stdio.h>

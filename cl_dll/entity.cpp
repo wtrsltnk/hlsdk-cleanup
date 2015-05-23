@@ -12,7 +12,7 @@
 #include "pm_defs.h"
 #include "pmtrace.h"	
 #include "pm_shared.h"
-#include "bench.h"
+#include "hud_bench.h"
 #include "Exports.h"
 
 #include "particleman.h"

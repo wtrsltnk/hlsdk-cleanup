@@ -122,17 +122,6 @@ int __MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 	return gHUD.MsgFunc_GameMode( pszName, iSize, pbuf );
 }
 
-int __MsgFunc_ClockStart(const char *pszName, int iSize, void *pbuf )
-{
-    return gHUD.MsgFunc_ClockStart( pszName, iSize, pbuf );
-}
-
-
-int __MsgFunc_ClockFinish(const char *pszName, int iSize, void *pbuf )
-{
-    return gHUD.MsgFunc_ClockFinish( pszName, iSize, pbuf );
-}
-
 // TFFree Command Menu
 void __CmdFunc_OpenCommandMenu(void)
 {
@@ -298,8 +287,6 @@ void CHud :: Init( void )
 	HOOK_MESSAGE( ViewMode );
 	HOOK_MESSAGE( SetFOV );
     HOOK_MESSAGE( Concuss );
-    HOOK_MESSAGE( ClockStart );
-    HOOK_MESSAGE( ClockFinish );
 
 	// TFFree CommandMenu
 	HOOK_COMMAND( "+commandmenu", OpenCommandMenu );
@@ -374,7 +361,8 @@ void CHud :: Init( void )
 	m_AmmoSecondary.Init();
 	m_TextMessage.Init();
 	m_StatusIcons.Init();
-	GetClientVoiceMgr()->Init(&g_VoiceStatusHelper, (vgui::Panel**)&gViewPort);
+    m_Clock.Init();
+    GetClientVoiceMgr()->Init(&g_VoiceStatusHelper, (vgui::Panel**)&gViewPort);
 
 	m_Menu.Init();
 	
@@ -523,6 +511,7 @@ void CHud :: VidInit( void )
 	m_AmmoSecondary.VidInit();
 	m_TextMessage.VidInit();
 	m_StatusIcons.VidInit();
+    m_Clock.VidInit();
 	GetClientVoiceMgr()->VidInit();
 }
 

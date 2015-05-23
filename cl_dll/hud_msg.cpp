@@ -28,7 +28,6 @@ extern IParticleMan *g_pParticleMan;
 extern TeamFortressViewport *gViewPort;
 
 
-#include <fstream>
 #define MAX_CLIENTS 32
 
 extern BEAM *pBeam;
@@ -128,90 +127,4 @@ int CHud :: MsgFunc_Concuss( const char *pszName, int iSize, void *pbuf )
 	else
 		this->m_StatusIcons.DisableIcon("dmg_concuss");
 	return 1;
-}
-
-int CHud :: MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf )
-{
-    int	action;
-
-    // Start demo recording
-    gEngfuncs.pfnClientCmd("record demos/lastdemo");
-
-    // Start reading the message. This has an action, but is not used right now.
-    BEGIN_READ( pbuf, iSize );
-    action = READ_BYTE();
-
-    // Isn't the clock already started? If not so, start it and save the start time
-    if (this->m_bClockStarted == false)
-    {
-        this->m_bClockStarted = true;
-        this->m_bClockFinished = false;
-        this->m_flClockStartTime = gHUD.m_flTime;
-    }
-
-    return 1;
-}
-
-extern const char* GetEscapedPlayerId(const char* playerID);
-
-int CHud :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
-{
-    int	action;
-    int totalmil, mil, totalsec, sec, min;
-    char szNextRun[64] = { 0 };
-    char szFinalTime[64] = { 0 };
-    char szPlayerID[16] = { 0 };
-    char szSubmitScore[64] = { 0 };
-    const char* szEncodedPlayerID = 0;
-
-    // Stop demo recording
-    gEngfuncs.pfnClientCmd("stop");
-
-    // As soon as the clock is stopped we submit the score. We do this by sending this client's
-    // Unique Id to the server in a "submit_score" message. The server will actually submit the
-    // score.
-
-    // Grab the playerID for sumbission
-    gEngfuncs.GetPlayerUniqueID(1, szPlayerID);
-
-    // Get the encoded version of the playerid
-    szEncodedPlayerID = GetEscapedPlayerId(szPlayerID);
-
-    // Send the playerID to the server so it can submit this score under this client's Id
-    strcpy(szSubmitScore, "submit_score ");
-    strcat(szSubmitScore, szEncodedPlayerID);
-    gEngfuncs.pfnClientCmd(szSubmitScore);
-
-    std::ofstream fs;
-    fs.open("rjr\\playerid.txt", std::ios::out);
-    fs << szEncodedPlayerID;
-    fs.close();
-
-    // Lets read the real message now
-    BEGIN_READ( pbuf, iSize );
-    action = READ_BYTE();
-    totalmil = READ_LONG();
-
-    // Calculate total milliseconds, total seconds and total minutes
-    mil = totalmil % 1000;
-    totalsec = (totalmil-mil) / 1000;
-    sec = totalsec % 60;
-    min = (totalsec-sec) / 60;
-
-    // Make a nice string from all of these
-    sprintf(szFinalTime, "%02d:%02d.%03d", min, sec, mil);
-
-    // Sjhow the time in the VGUI menu
-    gViewPort->m_pFinishSummaryPanel->SetFinalTime(szFinalTime);
-
-    // Read the next map
-    strcpy(szNextRun, READ_STRING());
-    gViewPort->m_pFinishSummaryPanel->SetNextRun(szNextRun);
-
-    // Reset the clock so it is not counting anymore
-    this->m_bClockFinished = true;
-    this->m_bClockStarted = false;
-    this->m_flClockFinishTime = gHUD.m_flTime;
-
-    return 1;
 }

@@ -1,42 +1,43 @@
 
 set(SRC_HL_CDLL
-	ammo.cpp
 	ammohistory.cpp
-	ammo_secondary.cpp
-	battery.cpp
 	cdll_int.cpp
 	com_weapons.cpp
-	death.cpp
 	demo.cpp
 	entity.cpp
 	events.cpp
 	ev_common.cpp
 	ev_hldm.cpp
-	flashlight.cpp
 	GameStudioModelRenderer.cpp
-	geiger.cpp
-	health.cpp
 	hud.cpp
+	hud_ammo.cpp
+	hud_ammo_secondary.cpp
+	hud_battery.cpp
 	hud_bench.cpp
 	hud_benchtrace.cpp
+	hud_clock.cpp
+	hud_death.cpp
+	hud_flashlight.cpp
+	hud_geiger.cpp
+	hud_health.cpp
+	hud_menu.cpp
+	hud_message.cpp
 	hud_msg.cpp
 	hud_redraw.cpp
+	hud_saytext.cpp
 	hud_servers.cpp
 	hud_spectator.cpp
+	hud_status_icons.cpp
+	hud_statusbar.cpp
+	hud_text_message.cpp
+	hud_train.cpp
 	hud_update.cpp
 	input.cpp
 	inputw32.cpp
 	interpolation.cpp
 	in_camera.cpp
-	menu.cpp
-	message.cpp
-	saytext.cpp
-	statusbar.cpp
-	status_icons.cpp
 	StudioModelRenderer.cpp
 	studio_util.cpp
-	text_message.cpp
-	train.cpp
 	tri.cpp
 	util.cpp
 	vgui_ClassMenu.cpp
@@ -87,9 +88,7 @@ set(SRC_HL_CDLL
 )
 
 set(HDR_HL_CDLL
-	ammo.h
 	ammohistory.h
-	bench.h
 	camera.h
 	cl_dll.h
 	cl_util.h
@@ -100,9 +99,11 @@ set(HDR_HL_CDLL
 	Exports.h
 	GameStudioModelRenderer.h
 	global_consts.h
-	health.h
 	hud.h
+	hud_ammo.h
+	hud_bench.h
 	hud_benchtrace.h
+	hud_health.h
 	hud_iface.h
 	hud_servers.h
 	hud_servers_priv.h

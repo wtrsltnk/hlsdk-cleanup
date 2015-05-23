@@ -18,7 +18,7 @@
 #include <math.h>
 #include "hud.h"
 #include "cl_util.h"
-#include "bench.h"
+#include "hud_bench.h"
 
 #include "vgui_TeamFortressViewport.h"
 
@@ -91,7 +91,7 @@ void CHud::Think(void)
 
 	Bench_CheckStart();
 }
-char clock_time[32] = { 0 };
+
 // Redraw
 // step through the local data,  placing the appropriate graphics & text as appropriate
 // returns 1 if they've changed, 0 otherwise
@@ -140,9 +140,6 @@ int CHud :: Redraw( float flTime, int intermission )
 
 	m_iIntermission = intermission;
 
-	// if no redrawing is necessary
-	// return 0;
-	
 	// draw all registered HUD elements
     if ( m_pCvarDraw->value )
 	{
@@ -176,67 +173,6 @@ int CHud :: Redraw( float flTime, int intermission )
 			pList = pList->pNext;
 		}
 	}
-
-	// are we in demo mode? do we need to draw the logo in the top corner?
-	if (m_iLogo)
-	{
-		int x, y, i;
-
-		if (m_hsprLogo == 0)
-			m_hsprLogo = LoadSprite("sprites/%d_logo.spr");
-
-		SPR_Set(m_hsprLogo, 250, 250, 250 );
-		
-		x = SPR_Width(m_hsprLogo, 0);
-		x = ScreenWidth - x;
-		y = SPR_Height(m_hsprLogo, 0)/2;
-
-		// Draw the logo at 20 fps
-		int iFrame = (int)(flTime * 20) % MAX_LOGO_FRAMES;
-		i = grgLogoFrame[iFrame] - 1;
-
-		SPR_DrawAdditive(i, x, y, NULL);
-	}
-
-    if (this->m_bClockStarted)
-    {
-        int totalmil, mil, totalsec, sec, min;
-
-        if (this->m_bClockFinished == false)
-            totalmil = float((this->m_flTime - this->m_flClockStartTime) * 1000.0f);
-        else
-            totalmil = float((this->m_flClockFinishTime - this->m_flClockStartTime) * 1000.0f);
-
-        mil = totalmil % 1000;
-        totalsec = (totalmil-mil) / 1000;
-        sec = totalsec % 60;
-        min = (totalsec-sec) / 60;
-        sprintf(clock_time, "%02d:%02d.%03d", min, sec, mil);
-
-        DrawHudString(20, 20, 0, clock_time, 100, 100, 100 );
-    }
-
-	/*
-	if ( g_iVisibleMouse )
-	{
-		void IN_GetMousePos( int *mx, int *my );
-		int mx, my;
-
-		IN_GetMousePos( &mx, &my );
-		
-		if (m_hsprCursor == 0)
-		{
-			char sz[256];
-			sprintf( sz, "sprites/cursor.spr" );
-			m_hsprCursor = SPR_Load( sz );
-		}
-
-		SPR_Set(m_hsprCursor, 250, 250, 250 );
-		
-		// Draw the logo at 20 fps
-		SPR_DrawAdditive( 0, mx, my, NULL );
-	}
-	*/
 
 	return 1;
 }
