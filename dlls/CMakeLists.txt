@@ -1,103 +1,104 @@
 
 set(SRC_HL_DLL
-	monsters/aflock.cpp
-	monsters/agrunt.cpp
 	airtank.cpp
 	animating.cpp
 	animation.cpp
-	monsters/apache.cpp
-	monsters/barnacle.cpp
-	monsters/barney.cpp
-	monsters/bigmomma.cpp
-	monsters/bloater.cpp
 	bmodels.cpp
-	monsters/bullsquid.cpp
 	buttons.cpp
 	cbase.cpp
 	client.cpp
 	combat.cpp
-	monsters/controller.cpp
-	weapons/crossbow.cpp
-	weapons/crowbar.cpp
 	defaultai.cpp
 	doors.cpp
 	effects.cpp
-	weapons/egon.cpp
 	explode.cpp
-	monsters/flyingmonster.cpp
 	func_break.cpp
 	func_tank.cpp
 	game.cpp
 	gamerules.cpp
-	monsters/gargantua.cpp
-	weapons/gauss.cpp
-	monsters/genericmonster.cpp
-	weapons/ggrenade.cpp
 	globals.cpp
-	weapons/glock.cpp
-	monsters/gman.cpp
-	weapons/handgrenade.cpp
-	monsters/hassassin.cpp
-	monsters/headcrab.cpp
 	healthkit.cpp
-	monsters/hgrunt.cpp
-	weapons/hornet.cpp
-	weapons/hornetgun.cpp
-	monsters/houndeye.cpp
 	h_ai.cpp
 	h_battery.cpp
-	monsters/h_cine.cpp
 	h_cycler.cpp
 	h_export.cpp
-	monsters/ichthyosaur.cpp
-	monsters/islave.cpp
 	items.cpp
-	monsters/leech.cpp
 	lights.cpp
 	maprules.cpp
-	monsters/monstermaker.cpp
-	monsters/monsters.cpp
-	monsters/monsterstate.cpp
 	mortar.cpp
-	weapons/mp5.cpp
 	multiplay_gamerules.cpp
-	monsters/nihilanth.cpp
 	nodes.cpp
 	observer.cpp
-	monsters/osprey.cpp
 	pathcorner.cpp
 	plane.cpp
 	plats.cpp
 	player.cpp
-	weapons/python.cpp
-	monsters/rat.cpp
-	monsters/roach.cpp
-	weapons/rpg.cpp
-	weapons/satchel.cpp
 	schedule.cpp
-	monsters/scientist.cpp
 	scripted.cpp
-	weapons/shotgun.cpp
 	singleplay_gamerules.cpp
 	skill.cpp
 	sound.cpp
 	soundent.cpp
 	spectator.cpp
-	monsters/squadmonster.cpp
-	weapons/squeakgrenade.cpp
 	subs.cpp
-	monsters/talkmonster.cpp
 	teamplay_gamerules.cpp
-	monsters/tempmonster.cpp
-	monsters/tentacle.cpp
 	triggers.cpp
-	weapons/tripmine.cpp
-	monsters/turret.cpp
 	util.cpp
-	weapons/weapons.cpp
 	world.cpp
 	xen.cpp
+	monsters/aflock.cpp
+	monsters/agrunt.cpp
+	monsters/apache.cpp
+	monsters/barnacle.cpp
+	monsters/barney.cpp
+	monsters/bigmomma.cpp
+	monsters/bloater.cpp
+	monsters/bullsquid.cpp
+	monsters/controller.cpp
+	monsters/flyingmonster.cpp
+	monsters/gargantua.cpp
+	monsters/genericmonster.cpp
+	monsters/gman.cpp
+	monsters/h_cine.cpp
+	monsters/hassassin.cpp
+	monsters/headcrab.cpp
+	monsters/hgrunt.cpp
+	monsters/houndeye.cpp
+	monsters/ichthyosaur.cpp
+	monsters/islave.cpp
+	monsters/leech.cpp
+	monsters/monstermaker.cpp
+	monsters/monsters.cpp
+	monsters/monsterstate.cpp
+	monsters/nihilanth.cpp
+	monsters/osprey.cpp
+	monsters/rat.cpp
+	monsters/roach.cpp
+	monsters/scientist.cpp
+	monsters/squadmonster.cpp
+	monsters/talkmonster.cpp
+	monsters/tempmonster.cpp
+	monsters/tentacle.cpp
+	monsters/turret.cpp
 	monsters/zombie.cpp
+	weapons/crossbow.cpp
+	weapons/crowbar.cpp
+	weapons/egon.cpp
+	weapons/gauss.cpp
+	weapons/ggrenade.cpp
+	weapons/glock.cpp
+	weapons/handgrenade.cpp
+	weapons/hornet.cpp
+	weapons/hornetgun.cpp
+	weapons/mp5.cpp
+	weapons/python.cpp
+	weapons/rpg.cpp
+	weapons/satchel.cpp
+	weapons/shotgun.cpp
+	weapons/squeakgrenade.cpp
+	weapons/tripmine.cpp
+	weapons/weapons.cpp
+	../cl_dll/ranking.cpp
 	../game_shared/voice_gamemgr.cpp
 	../pm_shared/pm_debug.c
 	../pm_shared/pm_math.c
@@ -157,6 +158,7 @@ set(HDR_HL_DLL
 	trains.h
 	util.h
 	weapons/weapons.h
+	../cl_dll/ranking.h
 	../engine/crc.h
 	../engine/custom.h
 	../engine/customentity.h

@@ -310,7 +310,8 @@ void CGameRules::RefreshSkillData ( void )
 
 CGameRules *InstallGameRules( void )
 {
-	SERVER_COMMAND( "exec game.cfg\n" );
+    SERVER_COMMAND( "exec game.cfg\n" );
+    SERVER_COMMAND( "exec rjr_server.cfg\n" );
 	SERVER_EXECUTE( );
 
 	if ( !gpGlobals->deathmatch )

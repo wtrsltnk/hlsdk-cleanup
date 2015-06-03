@@ -39,7 +39,7 @@
 #include "usercmd.h"
 #include "netadr.h"
 #include "pm_shared.h"
-#include <curl/curl.h>		// for submitting the results
+#include "../cl_dll/ranking.h"
 
 #if !defined ( _WIN32 )
 #include <ctype.h>
@@ -499,10 +499,7 @@ called each time a player uses a "cmd" command
 extern float g_flWeaponCheat;
 extern DLL_GLOBAL float g_ClockFinish;
 extern DLL_GLOBAL float g_ClockStart;
-extern DLL_GLOBAL char g_MapId[32];
-
-char szPostFields[32] = { 0 };
-char tmp[32] = { 0 };
+extern DLL_GLOBAL char g_szMapId[32];
 
 // Use CMD_ARGV,  CMD_ARGV, and CMD_ARGC to get pointers the character string command.
 void ClientCommand( edict_t *pEntity )
@@ -516,6 +513,7 @@ void ClientCommand( edict_t *pEntity )
 
     entvars_t *pev = &pEntity->v;
 
+    printf("%s\n", pcmd);
 	if ( FStrEq(pcmd, "say" ) )
 	{
 		Host_Say( pEntity, 0 );
@@ -601,10 +599,9 @@ void ClientCommand( edict_t *pEntity )
 		if ( pPlayer->IsObserver() )
 			pPlayer->Observer_FindNextPlayer( atoi( CMD_ARGV(1) )?true:false );
     }
-    else if ( FStrEq(pcmd, "vguimenu" ) )
+    else if ( FStrEq(pcmd, "update_map_ranking" ) )
     {
-        if (CMD_ARGC() >= 1)
-            GetClassPtr((CBasePlayer *)pev)->ShowVGUIMenu(atoi(CMD_ARGV(1)));
+//        g_Ranking.GetMapRanking("localhost:55032");
     }
     else if ( FStrEq(pcmd, "submit_score" ) )
     {
@@ -612,19 +609,7 @@ void ClientCommand( edict_t *pEntity )
         {
             float f = float((g_ClockFinish - g_ClockStart) * 1000.0f);
 
-            const char* playerid = CMD_ARGV(1);
-            sprintf(szPostFields, "time=%d&playerid=%s&mapid=%s", int(f), playerid, g_MapId);
-            char url[128] = { 0 };
-
-            sprintf(url, "%s/submit-score/index.php", CVAR_GET_STRING("scoreserver"));
-            //*
-            CURL* c;
-            c = curl_easy_init();
-            curl_easy_setopt( c, CURLOPT_URL, url );
-            curl_easy_setopt( c, CURLOPT_POSTFIELDS, szPostFields);
-            curl_easy_perform( c );
-            curl_easy_cleanup( c );
-            //*/
+            Ranking::SubmitScore(int(f), g_szMapId, CMD_ARGV(1));
         }
         else
             printf("no playerid\n");

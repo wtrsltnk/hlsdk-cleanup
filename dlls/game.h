@@ -21,6 +21,9 @@ extern void GameDLLInit( void );
 
 extern cvar_t	displaysoundlist;
 
+// Run Jump Retry score server
+extern cvar_t	scoreserver;
+
 // multiplayer server rules
 extern cvar_t	teamplay;
 extern cvar_t	fraglimit;
@@ -36,7 +39,6 @@ extern cvar_t	teamlist;
 extern cvar_t	teamoverride;
 extern cvar_t	defaultteam;
 extern cvar_t	allowmonsters;
-extern cvar_t	scoreserver;
 
 // Engine Cvars
 extern cvar_t	*g_psv_gravity;

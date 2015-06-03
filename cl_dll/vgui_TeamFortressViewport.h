@@ -1750,15 +1750,17 @@ class CFinishSummary : public CMenuPanel
 private:
     CommandButton       *m_pRetryButton;
     CommandButton       *m_pNextRunButton;
-    CommandButton       *m_pQuitButton;
     Label               *m_pFinalTime;
     CMenuHandler_StringCommand *m_pActionSignal;
+    Label               *m_RankingLabels[5][2];
 
 public:
     CFinishSummary(int iTrans, int iRemoveMe, int x, int y, int wide, int tall);
 
-    void SetFinalTime(const char* finaltime);
+    void SetFinalTime(int finaltime, const char* playerid);
     void SetNextRun(const char* nextRun);
+
+    virtual void Open( void );
 };
 // End - VGUI Tutorial
 

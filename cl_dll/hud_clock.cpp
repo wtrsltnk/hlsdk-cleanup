@@ -47,14 +47,19 @@ int CHudClock :: VidInit()
 void CHudClock :: Reset()
 { }
 
+void CHudClock :: InitHUDData()
+{
+    gEngfuncs.pfnClientCmd("update_map_ranking");
+}
+
 char clock_time[32] = { 0 };
 
 int CHudClock :: Draw(float flTime)
 {
+    int totalmil, mil, totalsec, sec, min;
+
     if (this->m_bClockStarted)
     {
-        int totalmil, mil, totalsec, sec, min;
-
         if (this->m_bClockFinished == false)
             totalmil = float((gHUD.m_flTime - this->m_flClockStartTime) * 1000.0f);
         else
@@ -68,20 +73,31 @@ int CHudClock :: Draw(float flTime)
 
         gHUD.DrawHudString(20, 20, 0, clock_time, 100, 100, 100 );
     }
+    else
+    {
+        tRank* rank = this->m_Ranking.GetRankings();
+        mil = rank->time % 1000;
+        totalsec = (rank->time-mil) / 1000;
+        sec = totalsec % 60;
+        min = (totalsec-sec) / 60;
+        sprintf(clock_time, "Time to beat: %02d:%02d.%03d", min, sec, mil);
+
+        gHUD.DrawHudString(20, 20, 0, clock_time, 100, 100, 100 );
+    }
 
     return 1;
 }
 
-extern void GetMapRanking(const char* mapID, const char* scoreserver);
+char szMapId[32] = { 0 };
+char szScoreServer[256] = { 0 };
 
 int CHudClock :: MsgFunc_ClockInit( const char *pszName, int iSize, void *pbuf )
 {
-    // Start reading the message. This has an action, but is not used right now.
     BEGIN_READ( pbuf, iSize );
+    strncpy(szMapId, READ_STRING(), 32);
+    strncpy(szScoreServer, READ_STRING(), 256);
 
-    strcpy(this->m_szMapId, READ_STRING());
-
-    GetMapRanking(this->m_szMapId, CVAR_GET_STRING("scoreserver"));
+    this->m_Ranking.GetMapRanking(szMapId, szScoreServer);
 
     return 1;
 }
@@ -112,10 +128,9 @@ extern const char* GetEscapedPlayerId(const char* playerID);
 
 int CHudClock :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf )
 {
+    int totalmil;
     int	action;
-    int totalmil, mil, totalsec, sec, min;
     char szNextRun[64] = { 0 };
-    char szFinalTime[64] = { 0 };
     char szSubmitScore[64] = { 0 };
 
     // Stop demo recording
@@ -138,17 +153,8 @@ int CHudClock :: MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf
     action = READ_BYTE();
     totalmil = READ_LONG();
 
-    // Calculate total milliseconds, total seconds and total minutes
-    mil = totalmil % 1000;
-    totalsec = (totalmil-mil) / 1000;
-    sec = totalsec % 60;
-    min = (totalsec-sec) / 60;
-
-    // Make a nice string from all of these
-    sprintf(szFinalTime, "%02d:%02d.%03d", min, sec, mil);
-
-    // Sjhow the time in the VGUI menu
-    gViewPort->m_pFinishSummaryPanel->SetFinalTime(szFinalTime);
+    // Show the time in the VGUI menu
+    gViewPort->m_pFinishSummaryPanel->SetFinalTime(totalmil, rjr_playerid->string);
 
     // Read the next map
     strcpy(szNextRun, READ_STRING());

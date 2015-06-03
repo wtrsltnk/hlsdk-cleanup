@@ -36,6 +36,7 @@ set(SRC_HL_CDLL
 	inputw32.cpp
 	interpolation.cpp
 	in_camera.cpp
+	ranking.cpp
 	StudioModelRenderer.cpp
 	studio_util.cpp
 	tri.cpp
@@ -58,7 +59,6 @@ set(SRC_HL_CDLL
 	hl/hl_objects.cpp
 	hl/hl_weapons.cpp
 	../common/parsemsg.cpp
-	../common/wouter.cpp
 	../dlls/weapons/crossbow.cpp
 	../dlls/weapons/crowbar.cpp
 	../dlls/weapons/egon.cpp
@@ -111,6 +111,7 @@ set(HDR_HL_CDLL
 	interpolation.h
 	in_defs.h
 	kbutton.h
+	ranking.h
 	StudioModelRenderer.h
 	studio_util.h
 	tri.h

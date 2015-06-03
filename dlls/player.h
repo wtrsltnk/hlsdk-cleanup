@@ -101,8 +101,6 @@ public:
 	int		m_iObserverLastMode;// last used observer mode
 	int		IsObserver() { return pev->iuser1; };
 
-    void    ShowVGUIMenu(int iMenuID); // VGUI Tutorial
-
 	int					random_seed;    // See that is shared between client & server for shared weapons code
 
 	int					m_iPlayerSound;// the index of the sound list slot reserved for this player

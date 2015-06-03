@@ -15,7 +15,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql =	"SELECT u.name AS name, r.time AS time, r.mapid AS map ". 
+$sql =	"SELECT p.playerid AS playerid, u.name AS name, r.time AS time, r.mapid AS map ". 
 		"FROM rjr_runs r INNER JOIN rjr_players p ON p.playerid=r.playerid INNER JOIN cms_users u ON u.uid=p.userid ".
 		"WHERE r.mapid=? ".
 		"ORDER BY r.time ASC";
@@ -28,9 +28,9 @@ if ($stmt) {
 		$result = $stmt->get_result();
 		while($row = $result->fetch_assoc()) {
 			echo "{\n";
+			echo "	\"playerid\" \"" . $row["playerid"] . "\"\n";
 			echo "	\"player\" \"" . $row["name"] . "\"\n";
 			echo "	\"time\" \"" . $row["time"] . "\"\n";
-			echo "	\"map\" \"" . $row["map"] . "\"\n";
 			echo "}\n";
 		}
 	} else {

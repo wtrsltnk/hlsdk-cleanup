@@ -32,6 +32,7 @@
 #include "wrect.h"
 #include "cl_dll.h"
 #include "hud_ammo.h"
+#include "ranking.h"
 
 #define DHN_DRAWZERO 1
 #define DHN_2DIGITS  2
@@ -75,7 +76,7 @@ public:
 	virtual int Draw(float flTime) {return 0;}
 	virtual void Think(void) {return;}
 	virtual void Reset(void) {return;}
-	virtual void InitHUDData( void ) {}		// called every time a server is connected to
+    virtual void InitHUDData( void ) {}		// called every time a server is connected to
 
 };
 
@@ -544,9 +545,12 @@ public:
     int VidInit( void );
     int Draw(float flTime);
     void Reset( void );
+    void InitHUDData();
     int _cdecl MsgFunc_ClockInit( const char *pszName, int iSize, void *pbuf );
     int _cdecl MsgFunc_ClockStart( const char *pszName, int iSize, void *pbuf );
     int _cdecl MsgFunc_ClockFinish( const char *pszName, int iSize, void *pbuf );
+
+    Ranking& GetRanking() { return this->m_Ranking; }
 
 private:
     bool m_bClockStarted;
@@ -554,7 +558,7 @@ private:
     bool m_bClockFinished;
     float m_flClockFinishTime;
     const char* m_szEncodedPlayerID;
-    char m_szMapId[32];
+    Ranking m_Ranking;
 
 };
 

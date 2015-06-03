@@ -18,11 +18,13 @@
 #include "game.h"
 
 cvar_t	displaysoundlist = {"displaysoundlist","0"};
-cvar_t	scoreserver = {" scoreserver","localhost:55032", FCVAR_SERVER };
 
 // multiplayer server rules
 cvar_t	fragsleft	= {"mp_fragsleft","0", FCVAR_SERVER | FCVAR_UNLOGGED };	  // Don't spam console/log files/users with this changing
 cvar_t	timeleft	= {"mp_timeleft","0" , FCVAR_SERVER | FCVAR_UNLOGGED };	  // "      "
+
+// Run Jump Retry score server
+cvar_t	scoreserver	= {"sv_scoreserver","0", FCVAR_SERVER };
 
 // multiplayer server rules
 cvar_t	teamplay	= {"mp_teamplay","0", FCVAR_SERVER };
@@ -461,8 +463,9 @@ void GameDLLInit( void )
 	g_psv_aim = CVAR_GET_POINTER( "sv_aim" );
 	g_footsteps = CVAR_GET_POINTER( "mp_footsteps" );
 
-    CVAR_REGISTER (&displaysoundlist);
     CVAR_REGISTER (&scoreserver);
+
+    CVAR_REGISTER (&displaysoundlist);
     CVAR_REGISTER( &allow_spectators );
 
 	CVAR_REGISTER (&teamplay);

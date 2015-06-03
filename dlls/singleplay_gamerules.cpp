@@ -25,7 +25,9 @@
 #include	"items.h"
 
 extern DLL_GLOBAL CGameRules	*g_pGameRules;
-extern DLL_GLOBAL BOOL	g_fGameOver;
+extern DLL_GLOBAL BOOL			g_fGameOver;
+extern DLL_GLOBAL char			g_szMapId[32];
+extern DLL_GLOBAL char			g_szScoreServer[256];
 extern int gmsgDeathMsg;	// client dll messages
 extern int gmsgScoreInfo;
 extern int gmsgMOTD;
@@ -117,10 +119,15 @@ float CHalfLifeRules::FlPlayerFallDamage( CBasePlayer *pPlayer )
 	return pPlayer->m_flFallVelocity * DAMAGE_FOR_FALL_SPEED;
 }
 
+extern int gmsgClockInit;
 //=========================================================
 //=========================================================
 void CHalfLifeRules :: PlayerSpawn( CBasePlayer *pPlayer )
 {
+    MESSAGE_BEGIN( MSG_ALL, gmsgClockInit );
+    WRITE_STRING(g_szMapId);
+    WRITE_STRING(CVAR_GET_STRING("sv_scoreserver"));
+    MESSAGE_END();
 }
 
 //=========================================================

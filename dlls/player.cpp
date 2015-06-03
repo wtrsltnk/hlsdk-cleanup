@@ -1,4 +1,4 @@
-	/***
+    /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
 *	
@@ -184,6 +184,7 @@ int gmsgSetFOV = 0;
 int gmsgShowMenu = 0;
 int gmsgGeigerRange = 0;
 int gmsgTeamNames = 0;
+int gmsgClockInit = 0;
 int gmsgClockStart = 0;
 int gmsgClockFinish = 0;
 int gmsgVGUIMenu = 0; // VGUI Tutorial
@@ -235,25 +236,15 @@ void LinkUserMessages( void )
 	gmsgFade = REG_USER_MSG("ScreenFade", sizeof(ScreenFade));
 	gmsgAmmoX = REG_USER_MSG("AmmoX", 2);
     gmsgTeamNames = REG_USER_MSG( "TeamNames", -1 );
+    gmsgClockInit = REG_USER_MSG( "ClockInit",-1 );
     gmsgClockStart = REG_USER_MSG( "ClockStart",3 );
     gmsgClockFinish = REG_USER_MSG( "ClockFinish",-1 );
-    gmsgVGUIMenu = REG_USER_MSG("VGUIMenu", 1); // VGUI Tutorial
 
 	gmsgStatusText = REG_USER_MSG("StatusText", -1);
-	gmsgStatusValue = REG_USER_MSG("StatusValue", 3); 
-
+    gmsgStatusValue = REG_USER_MSG("StatusValue", 3);
 }
 
 LINK_ENTITY_TO_CLASS( player, CBasePlayer );
-
-// Start - VGUI Tutorial
-void CBasePlayer :: ShowVGUIMenu(int iMenuID)
-{
-    MESSAGE_BEGIN(MSG_ONE, gmsgVGUIMenu, NULL, pev);
-        WRITE_BYTE( iMenuID );
-    MESSAGE_END();
-}
-// End - VGUI Tutorial
 
 void CBasePlayer :: Pain( void )
 {
