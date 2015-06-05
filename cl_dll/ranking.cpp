@@ -48,7 +48,7 @@ void Ranking::GetMapRanking(const char* mapid, const char* scoreserver)
     sprintf_s(szPostFields, "mapid=%s", this->m_szMapId);
 
 	char szUrl[128] = { 0 };
-    sprintf_s(szUrl, "%s/submit-score/top.php", this->m_szScoreServer);
+    sprintf_s(szUrl, "%s/challange/top", this->m_szScoreServer);
 
 	CURL* c;
 	c = curl_easy_init();
@@ -138,7 +138,7 @@ bool Ranking::ParseOneRankingJson(char* szJson, int i)
 
 void Ranking::SetKeyValue(int index, const char* key, const char* value)
 {
-    if (strcmp(key, "player") == 0)
+    if (strcmp(key, "playerName") == 0)
         strncpy_s(this->m_Rankings[index].playerName, value, 32);
 
     if (strcmp(key, "time") == 0)
@@ -151,7 +151,7 @@ char szUrl[256] = { 0 };
 void Ranking::SubmitScore(int time, const char* mapid, const char* playerid)
 {
     sprintf_s(szPostFields, "time=%d&playerid=%s&mapid=%s", time, playerid, mapid);
-    sprintf_s(szUrl, "%s/submit-score/index.php", CVAR_GET_STRING("sv_scoreserver"));
+    sprintf_s(szUrl, "%s/challange/submit", CVAR_GET_STRING("sv_scoreserver"));
 
     //*
     CURL* c;
