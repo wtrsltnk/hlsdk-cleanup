@@ -390,7 +390,12 @@ add_definitions(-DWIN32 -D_DEBUG -D_WINDOWS -DCLIENT_DLL -DCLIENT_WEAPONS -DCURL
 
 find_file(SDL2_LIBRARY SDL2.lib ../lib/SDL2/lib)
 find_file(VGUI_LIBRARY vgui.lib ../lib/vgui/lib/win32_vc6)
-find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib)
+
+if(${MSVC_VERSION} GREATER 1800)
+	find_file(CURL_LIBRARY libcurl_imp.lib ../lib/curl/lib/vs2015)
+else()
+	find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib/vs2012)
+endif()
 
 message(STATUS "Found SDL library @ ${SDL2_LIBRARY}")
 message(STATUS "Found vgui library @ ${VGUI_LIBRARY}")

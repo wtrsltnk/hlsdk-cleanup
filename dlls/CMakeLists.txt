@@ -200,7 +200,11 @@ include_directories(
 
 add_definitions(-DCLIENT_WEAPONS -DCURL_STATICLIB)
 
-find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib)
+if(${MSVC_VERSION} GREATER 1800)
+	find_file(CURL_LIBRARY libcurl_imp.lib ../lib/curl/lib/vs2015)
+else()
+	find_file(CURL_LIBRARY libcurl.lib ../lib/curl/lib/vs2012)
+endif()
 
 message(STATUS "Found curl library @ ${CURL_LIBRARY}")
 
